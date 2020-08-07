@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from "axios";
 
-class App extends Component {
+class Player extends Component {
   constructor(props){
     super(props)
     this.state={
@@ -96,4 +96,4 @@ handleChange = (e) => {
   );
 }
 }
-export default App;
+export default Player;

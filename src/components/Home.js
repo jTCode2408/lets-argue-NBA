@@ -3,12 +3,12 @@
 // link to versus page to compare players
 import React, {useState} from 'react';
 import Player from './Player';
-
+import Versus from './Versus';
 
 const Home=()=>{
     return(
         <div className = "homeCont">
-          <Player/>
+          <Versus/>
         </div>
     )
 }
