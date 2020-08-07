@@ -1,9 +1,9 @@
 # Lets Argue(NBA)
 compare NBA players' stats throughout seasons, argue with friends about it!
 
-### Proejct Status: 
-- In Progress
+## Available Scripts
 
+In the project directory, you can run:
 
 ### API: https://ball-dont-lie.herokuapp.com
 * Players season 1980-current
