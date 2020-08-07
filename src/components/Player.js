@@ -14,7 +14,7 @@ const Player=()=>{
 
    const handleSubmit=(e)=>{
         e.preventDefault();
-        getPlayer();
+        getPlayerId();
         console.log('SUBMITTING', player);
         
     }
@@ -30,37 +30,25 @@ const Player=()=>{
 
     }
     
-   useEffect(()=>{
-    axios.get(`https://www.balldontlie.io/api/v1/players?search=${player}`)
-    .then(  res=>{
-        console.log('FROM ID CALL', res.data.data[0].id)
-        setPlayer(res.data.data[0].id)
-         
-    })
-    .catch(err=>{
-        console.log(err)
-    })
-}, [player])
 
-    const getPlayer=()=>{
-        axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2002&player_ids[]=${player}`)
-        .then(async res=>{
-            console.log(res.data.data[0])
-            setStats(res.data.data[0])
+    const getPlayerId=()=>{
+        axios.get(`https://www.balldontlie.io/api/v1/players?search=${player}`)
+        .then( async res=>{
+            console.log('FROM PLAYER CALL',res.data.data[0])
+           await getPlayerStats(res.data.data[0].id)
            
         })
         .catch(err =>{
             console.log(err)
         })
     }
-   
 
 
-    const getPlayerData=(PID)=> {
+    const getPlayerStats=(playerId)=> {
         
-        axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2002&player_ids[]=${PID}`)
-        .then(async res=>{
-            console.log(res.data.data[0])
+        axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2002&player_ids[]=${playerId}`)
+        .then( async res=>{
+            console.log(' PLAYER STATS CALL', res.data)
             setStats(res.data.data[0])
            
         })
