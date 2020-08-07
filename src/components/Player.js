@@ -1,83 +1,99 @@
-//if seraching single player
-//add to Home page, will be main basic app functionality
-// api/v1/season_averages?season=2018&player_ids[]=1&player_ids[]=2 will return regular season averages for player_ids 1 and 2. ONLY NEED 1 PLAYER HERE
-//ALLOW SEASON DROPDOWN
-//need to get playerID to return data
-import React, {useState, useEffect, useParams} from 'react';
-import axios from 'axios';
+import React, {Component} from 'react';
+import axios from "axios";
 
-const Player=()=>{
-    const [player, setPlayer]=useState('');
-    const [stats, setStats]=useState({});
-    const [year, setYear]= useState(2000);
-
-
-   const handleSubmit=(e)=>{
-        e.preventDefault();
-        getPlayerId();
-        console.log('SUBMITTING', player);
-        
+class App extends Component {
+  constructor(props){
+    super(props)
+    this.state={
+      player: null,
+      playerStats: {}
     }
+  }
 
-    const handleChange = (e)=>{
-        const splitting = e.target.value.split(" ").join("_");
-        if (splitting.length > 0){
-            setPlayer(splitting)
-
-        } else{
-            alert(' Please enter player name');
-        }
-
-    }
-    
-
-    const getPlayerId=()=>{
-        axios.get(`https://www.balldontlie.io/api/v1/players?search=${player}`)
-        .then( async res=>{
-            console.log('FROM PLAYER CALL',res.data.data[0])
-           await getPlayerStats(res.data.data[0].id)
-           
-        })
-        .catch(err =>{
-            console.log(err)
-        })
-    }
-
-
-    const getPlayerStats=(playerId)=> {
-        
-        axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2002&player_ids[]=${playerId}`)
-        .then( async res=>{
-            console.log(' PLAYER STATS CALL', res.data)
-            setStats(res.data.data[0])
-           
-        })
-        .catch(err =>{
-            console.log(err)
-        })
-        
-    
-     }
-      
-
-
-    return(
-        <div className="playerCont">
-            Search a plyer's stats
-            <div>
-                <form onSubmit={handleSubmit}>
-                    <label> Player:
-                    <input type="text"
-                    onChange={handleChange}
-                
-                    />
-                    </label>
-                    <input type="submit" value="Submit"/>
-                </form>
-               
-            </div>
-        </div>
-    )
+handleSubmit = (e) => {
+  e.preventDefault();
+  this.getPlayerId()
+  console.log('SUBMITTING', this.state.player)
 }
 
-export default Player;
+handleChange = (e) => {
+  const splitting = e.target.value.split(" ").join("_");
+  if(splitting.length > 0){
+    this.setState({player: splitting})
+  } else {
+    alert("Please type players name!")
+  }
+}
+
+  getPlayerId = () => {
+    axios.get(`https://www.balldontlie.io/api/v1/players?search=${this.state.player}`)
+    .then(async res => {
+      // console.log(res.data.data)
+      if(res.data.data[0] === undefined){
+        alert("This player is either injured or did not play this season")
+      } else if(res.data.data.length > 1){
+        alert("Pleases specify player name")
+      } else{
+        await this.getPlayerStats(res.data.data[0].id)
+
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
+  getPlayerStats = (id) => {
+    axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2006&player_ids[]=${id}`)
+    .then(async res => {
+      console.log(res.data.data)
+      this.setState({ playerStats: res.data.data[0]})
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+  
+  render(){
+  return (
+    <div className="player-cont">
+     <form onSubmit={this.handleSubmit} className = "player1-form">
+       <label>
+         Name
+         <input 
+          type="text"
+          value={this.state.value}
+          onChange={this.handleChange}
+          placeholder="player name"
+         />
+       </label>
+       <input type="submit" value="Get Stats"/>
+     </form>
+     <div className = "results">
+
+    <h2>Season Averages:</h2>
+     <ul>
+        <li>games played: {this.state.playerStats["games_played"]}</li>
+        <li>minutes:{this.state.playerStats["min"]}</li>
+        <li> points: {this.state.playerStats["pts"]}</li>
+        <li> rebounds: {this.state.playerStats["reb"]}</li>
+        <li> assists: {this.state.playerStats["ast"]}</li>
+  <li>steals:{this.state.playerStats["stl"]}</li>
+        <li>turnovers: {this.state.playerStats["turnover"]}</li>
+        <li>Field goal: {this.state.playerStats["fg_pct"]}</li>
+        <li>FG A "fga"</li>
+        <li>FG M "fgm"</li>
+        <li>3pt %:{this.state.playerStats["fg3_pct"]} </li>
+        <li>3PT A "fg3a"</li>
+        <li>3PT M "fg3m"</li>
+        <li>Free throw %: {this.state.playerStats["ft_pct"]}</li>
+        <li>FT A "fta"</li>
+        <li>FT M "ftm"</li>
+
+     </ul>
+     </div>
+
+
+    </div>
+  );
+}
+}
+export default App;
