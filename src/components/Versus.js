@@ -5,6 +5,7 @@
 
 import React, {Component} from 'react';
 import axios from "axios";
+import Nav from './Nav';
 
 class Versus extends Component {
   constructor(props){
@@ -103,6 +104,8 @@ handleChange = (e) => {
   render(){
   return (
     <div className="player-cont">
+        <Nav/>
+        <div className="forms-cont">
      <form onSubmit={this.handleSubmit} className = "players-form">
        <label>
          p1Name
@@ -124,7 +127,7 @@ handleChange = (e) => {
        </label>
        <input type="submit" value="Get Stats"/>
      </form>
-     
+     </div>
      <div className = "results">
 
     <h2>Season Averages:</h2>

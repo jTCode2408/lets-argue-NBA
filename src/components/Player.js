@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import axios from "axios";
+import {Route, Link, Switch} from 'react-router-dom';
+import Versus from './Versus';
+import Nav from './Nav';
 
 class Player extends Component {
   constructor(props){
@@ -55,6 +58,8 @@ handleChange = (e) => {
   render(){
   return (
     <div className="player-cont">
+        <Nav/>
+        <div className="form-cont">
      <form onSubmit={this.handleSubmit} className = "player1-form">
        <label>
          Name
@@ -67,6 +72,7 @@ handleChange = (e) => {
        </label>
        <input type="submit" value="Get Stats"/>
      </form>
+     </div>
      <div className = "results">
 
     <h2>Season Averages:</h2>
