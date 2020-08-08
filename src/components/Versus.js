@@ -33,7 +33,6 @@ handleChange = (e) => {
     alert("Please type players name!")
   }
 }
-//IN CASE NEEDED
 
     handlep2Change = (e)=>{
  const split2 = e.target.value.split(" ").join("_");
@@ -47,13 +46,13 @@ handleChange = (e) => {
   getPOneId = () => {
     axios.get(`https://www.balldontlie.io/api/v1/players?search=${this.state.player1}`)
     .then(async res => {
-      console.log("P1 CALL", res.data.data)
+      console.log("P1 ID", res.data.data)
       if(res.data.data[0] === undefined){
         alert("This player is either injured or did not play this season")
       } else if(res.data.data.length > 1){
         alert("Pleases specify player name")
       } else{
-        await this.getPlayerStats(res.data.data[0].id)
+        await this.getPOneStats(res.data.data[0].id)
 
       }
     }).catch(err => {
@@ -65,13 +64,14 @@ handleChange = (e) => {
   getPTwoId = () => {
     axios.get(`https://www.balldontlie.io/api/v1/players?search=${this.state.player2}`)
     .then(async res => {
-      console.log("P2",res.data.data)
-      if(res.data.data[1] === undefined){
+      console.log("P2 ID",res.data.data)
+      if(res.data.data[0] === undefined){
         alert("This player is either injured or did not play this season")
-      } else if(res.data.data.length > 1){
+      }
+     else if(res.data.data.length > 1){
         alert("Pleases specify player name")
       } else{
-        await this.getPlayerStats(res.data.data[0].id)
+        await this.getPTwoStats(res.data.data[0].id)
 
       }
     }).catch(err => {
@@ -79,11 +79,21 @@ handleChange = (e) => {
     })
   }
 
-  getPlayerStats = (id1) => {
-    axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2018&player_ids[]=${id1}&player_ids[]=${id1}`)
+ 
+  getPOneStats = (id1) => {
+    axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2018&player_ids[]=${id1}`)
     .then(async res => {
-      console.log("STATS", res.data)
+      console.log("P1 STATS", res.data.data)
       this.setState({ p1Stats: res.data.data[0]})
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
+  getPTwoStats = (id2) => {
+    axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2018&player_ids[]=${id2}`)
+    .then(async res => {
+      console.log(" P2 STATS", res.data.data)
       this.setState({ p2Stats: res.data.data[0]})
     }).catch(err => {
       console.log(err)
@@ -104,6 +114,7 @@ handleChange = (e) => {
          />
            </label>
            <label>
+               p2Name
         <input 
           type="text"
           value={this.state.value}
