@@ -4,12 +4,16 @@ import {Route, Link, Switch} from 'react-router-dom';
 import Versus from './Versus';
 import Nav from './Nav';
 
+import Chart from './Chart';
+
+
 class Player extends Component {
   constructor(props){
     super(props)
     this.state={
       player: null,
-      playerStats: {}
+      playerStats: {},
+
     }
   }
 
@@ -48,9 +52,20 @@ handleChange = (e) => {
   getPlayerStats = (id) => {
     axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2006&player_ids[]=${id}`)
     .then(async res => {
-      console.log(res.data.data)
-      this.setState({ playerStats: res.data.data[0]})
-    }).catch(err => {
+        const chartData= 
+            {labels:Object.keys(res.data.data[0]),
+                datasets:[{
+                label: "Season Averages",
+                data: Object.values(res.data.data[0])
+        
+                }]
+            }
+         
+      this.setState({ 
+    playerStats: chartData})
+})
+       
+    .catch(err => {
       console.log(err)
     })
   }
@@ -74,8 +89,10 @@ handleChange = (e) => {
      </form>
      </div>
      <div className = "results">
-
-    <h2>Season Averages:</h2>
+         <Chart data={this.state.playerStats}/>
+    
+   {/*
+   <h2>Season Averages:</h2>
      <ul>
         <li>games played: {this.state.playerStats["games_played"]}</li>
         <li>minutes:{this.state.playerStats["min"]}</li>
@@ -95,6 +112,7 @@ handleChange = (e) => {
         <li>FT M "ftm"</li>
 
      </ul>
+   */}
      </div>
 
 
