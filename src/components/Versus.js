@@ -6,6 +6,7 @@
 import React, {Component} from 'react';
 import axios from "axios";
 import Nav from './Nav';
+import Chart from './Chart';
 
 class Versus extends Component {
   constructor(props){
@@ -14,7 +15,8 @@ class Versus extends Component {
       player1: null,
       player2: null,
       p1Stats: {},
-      p2Stats:{}
+      p2Stats:{},
+      year: null
     }
   }
 
@@ -44,6 +46,12 @@ handleChange = (e) => {
     }
  }
 
+ handleYear=(e)=>{
+    const getYear = e.target.value
+   this.setState({year : getYear})
+
+
+}
   getPOneId = () => {
     axios.get(`https://www.balldontlie.io/api/v1/players?search=${this.state.player1}`)
     .then(async res => {
@@ -82,20 +90,42 @@ handleChange = (e) => {
 
  
   getPOneStats = (id1) => {
-    axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2018&player_ids[]=${id1}`)
+    const year =this.state.year
+    axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${year}&player_ids[]=${id1}`)
     .then(async res => {
-      console.log("P1 STATS", res.data.data)
-      this.setState({ p1Stats: res.data.data[0]})
+  
+      const chartData= 
+      {labels:Object.keys(res.data.data[0]),
+          datasets:[{
+          label: "Season Averages",
+          data: Object.values(res.data.data[0])
+  
+          }]
+      }
+   
+        this.setState({ p1Stats: chartData})
+
     }).catch(err => {
       console.log(err)
     })
   }
 
   getPTwoStats = (id2) => {
-    axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2018&player_ids[]=${id2}`)
+    const year =this.state.year
+    axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${year}&player_ids[]=${id2}`)
     .then(async res => {
-      console.log(" P2 STATS", res.data.data)
-      this.setState({ p2Stats: res.data.data[0]})
+
+      const chartData= 
+      {labels:Object.keys(res.data.data[0]),
+          datasets:[{
+          label: "Season Averages",
+          data: Object.values(res.data.data[0])
+  
+          }]
+      }
+   
+        this.setState({ p2Stats: chartData})
+
     }).catch(err => {
       console.log(err)
     })
@@ -125,14 +155,28 @@ handleChange = (e) => {
           placeholder="player2 name"
          />
        </label>
+       <label>
+         Year
+         <input 
+          type="text"
+          value={this.state.value}
+          onChange={this.handleYear}
+          placeholder="season"
+         />
+       </label>
        <input type="submit" value="Get Stats"/>
      </form>
      </div>
      <div className = "results">
-
-    <h2>Season Averages:</h2>
+         <div className="p1-graph"> 
+         <h2>Player 1</h2>
+     <Chart data={this.state.p1Stats}/> 
+     </div>
+     <div className = "p2-graph">
+     <h2>Player 2</h2>
+     <Chart data={this.state.p2Stats}/> 
+     </div>
     
-
      </div>
 
 
