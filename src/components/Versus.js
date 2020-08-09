@@ -16,7 +16,12 @@ class Versus extends Component {
       player2: null,
       p1Stats: {},
       p2Stats:{},
-      year: null
+      year: null,
+      showChart: false,
+      p1First: null,
+      p1Last:null,
+      p2First:null,
+      p2Last:null
     }
   }
 
@@ -24,8 +29,19 @@ handleSubmit = (e) => {
   e.preventDefault();
   this.getPOneId();
   this.getPTwoId();
-  console.log('SUBMITTING1', this.state.player1)
-  console.log('SUBMITTING2', this.state.player2)
+ 
+  if(this.state.year === null){
+      alert("please enter a season")
+
+  } else if(this.state.year.length < 4){
+    alert(" please enter year 4 digit format")
+  }
+    else if(this.state.year < "1980"){
+        alert("please enter season after 1980")
+    } else{
+      this.setState({showChart:true})
+  }
+  
 }
 
 handleChange = (e) => {
@@ -48,20 +64,21 @@ handleChange = (e) => {
 
  handleYear=(e)=>{
     const getYear = e.target.value
-   this.setState({year : getYear})
-
-
+    this.setState({year : getYear})
+    
 }
   getPOneId = () => {
     axios.get(`https://www.balldontlie.io/api/v1/players?search=${this.state.player1}`)
     .then(async res => {
-      console.log("P1 ID", res.data.data)
+      
       if(res.data.data[0] === undefined){
-        alert("This player is either injured or did not play this season")
+        alert("player is injured or did not play this season")
       } else if(res.data.data.length > 1){
         alert("Pleases specify player name")
       } else{
         await this.getPOneStats(res.data.data[0].id)
+        this.setState({p1First: res.data.data[0].first_name})
+        this.setState({p1Last: res.data.data[0].last_name})
 
       }
     }).catch(err => {
@@ -73,7 +90,7 @@ handleChange = (e) => {
   getPTwoId = () => {
     axios.get(`https://www.balldontlie.io/api/v1/players?search=${this.state.player2}`)
     .then(async res => {
-      console.log("P2 ID",res.data.data)
+
       if(res.data.data[0] === undefined){
         alert("This player is either injured or did not play this season")
       }
@@ -81,6 +98,8 @@ handleChange = (e) => {
         alert("Pleases specify player name")
       } else{
         await this.getPTwoStats(res.data.data[0].id)
+        this.setState({p2First:res.data.data[0].first_name})
+        this.setState({p2Last:res.data.data[0].last_name})
 
       }
     }).catch(err => {
@@ -93,12 +112,20 @@ handleChange = (e) => {
     const year =this.state.year
     axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${year}&player_ids[]=${id1}`)
     .then(async res => {
+        const displayData = Object.keys(res.data.data[0]).reduce((object, key) => {
+            if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf") {
+              object[key] = res.data.data[0][key]
+            }
+            console.log("displayData", object)
+            return object
+          }, {})
+
   
       const chartData= 
-      {labels:Object.keys(res.data.data[0]),
+      {labels:[ 'ASSITS','BLOCKS','3PT %', '3PT ATTEMPTS', '3PT MAKES', 'FG %', 'FG ATTEMPTS', 'FG MAKES', 'FT %','FT ATTEMPS', 'FT MAKES', 'GAMES', 'POINTS', 'REBOUNDS', 'STEALS','TURNOVERS'],
           datasets:[{
           label: "Season Averages",
-          data: Object.values(res.data.data[0])
+          data: Object.values(displayData)
   
           }]
       }
@@ -114,12 +141,19 @@ handleChange = (e) => {
     const year =this.state.year
     axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${year}&player_ids[]=${id2}`)
     .then(async res => {
+        const displayData = Object.keys(res.data.data[0]).reduce((object, key) => {
+            if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf") {
+              object[key] = res.data.data[0][key]
+            }
+            console.log("displayData", object)
+            return object
+          }, {})
 
       const chartData= 
-      {labels:Object.keys(res.data.data[0]),
+      {labels:[  'ASSITS','BLOCKS','3PT %', '3PT ATTEMPTS', '3PT MAKES', 'FG %', 'FG ATTEMPTS', 'FG MAKES', 'FT %','FT ATTEMPS', 'FT MAKES', 'GAMES', 'POINTS', 'REBOUNDS', 'STEALS','TURNOVERS'],
           datasets:[{
           label: "Season Averages",
-          data: Object.values(res.data.data[0])
+          data: Object.values(displayData)
   
           }]
       }
@@ -133,13 +167,14 @@ handleChange = (e) => {
   
   render(){
   return (
-    <div className="player-cont">
+    <div className="players-cont">
         <Nav/>
-        <div className="forms-cont">
-     <form onSubmit={this.handleSubmit} className = "players-form">
+
+        <div className="inputs-cont">
+     <form onSubmit={this.handleSubmit} className = "players-inputs">
        <label>
-         p1Name
-         <input 
+         PLAYER 1
+         <input className="p1-input"
           type="text"
           value={this.state.value}
           onChange={this.handleChange}
@@ -147,17 +182,17 @@ handleChange = (e) => {
          />
            </label>
            <label>
-               p2Name
+               PLAYER 2
         <input 
-          type="text"
+          type="text" className="p2-input"
           value={this.state.value}
           onChange={this.handlep2Change}
           placeholder="player2 name"
          />
        </label>
        <label>
-         Year
-         <input 
+         SEASON
+         <input  className="year-input"
           type="text"
           value={this.state.value}
           onChange={this.handleYear}
@@ -166,21 +201,38 @@ handleChange = (e) => {
        </label>
        <input type="submit" value="Get Stats"/>
      </form>
-     </div>
-     <div className = "results">
-         <div className="p1-graph"> 
-         <h2>Player 1</h2>
-     <Chart data={this.state.p1Stats}/> 
-     </div>
-     <div className = "p2-graph">
-     <h2>Player 2</h2>
-     <Chart data={this.state.p2Stats}/> 
-     </div>
+     </div> {/*input cont end*/}
+
+     <div className = "results-cont">
+
+     {this.state.showChart === true ? (
+         <div className="graphs-cont">
+
+         <div className = "p1=graph-cont">
+     <h2>{this.state.p1First} {this.state.p1Last}</h2>
+          <Chart data={this.state.p1Stats}/> 
+          </div>
+
+          <div className="p2-graph-cont">
+     <h2>{this.state.p2First} {this.state.p2Last}</h2>
+          <Chart data={this.state.p2Stats}/> 
+          </div>
+
+          </div> //BOTH graphs div end
+      )
+      : (
+         <div className = "pre-submit">
+         "Enter player names to see season averages"
+         </div>
+      
+      )
+}
     
-     </div>
+    
+     </div>{/*results cont end*/}
 
 
-    </div>
+    </div> /*players cont end*/
   );
 }
 }

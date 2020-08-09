@@ -22,8 +22,17 @@ class Player extends Component {
 handleSubmit = (e) => {
   e.preventDefault();
   this.getPlayerId();
-  this.setState({showChart:true})
-  console.log('SUBMITTING', this.state.player)
+  if(this.state.year === null){
+    alert("please enter a season")
+
+} else if(this.state.year.length < 4){
+  alert(" please enter year 4 digit format")
+}
+  else if(this.state.year < "1980"){
+      alert("please enter season after 1980")
+  } else{
+    this.setState({showChart:true})
+}
 }
 
 handleChange = (e) => {
@@ -71,7 +80,7 @@ handleYear=(e)=>{
           }, {})
 
         const chartData= 
-            {labels:[ 'ast','blk','fg3_pct', 'fg3a', 'fg3m', 'fg_pct', 'fga', 'fgm', 'ft_pct','fta', 'ftm', 'games_played', 'POINTS', 'rebounds', 'steal','turnover'],
+            {labels:[  'ASSITS','BLOCKS','3PT %', '3PT ATTEMPTS', '3PT MAKES', 'FG %', 'FG ATTEMPTS', 'FG MAKES', 'FT %','FT ATTEMPS', 'FT MAKES', 'GAMES', 'POINTS', 'REBOUNDS', 'STEALS','TURNOVERS'],
                 datasets:[{
                 label: "Season Average",
                 data: Object.values(displayData)
@@ -96,8 +105,8 @@ handleYear=(e)=>{
         <div className="form-cont">
      <form onSubmit={this.handleSubmit} className = "player1-form">
        <label>
-         Name
-         <input 
+         PLAYER
+         <input className="player-input"
           type="text"
           value={this.state.value}
           onChange={this.handleChange}
@@ -105,8 +114,8 @@ handleYear=(e)=>{
          />
        </label>
        <label>
-         Year
-         <input 
+         SEASON
+         <input className="year-input"
           type="text"
           value={this.state.value}
           onChange={this.handleYear}
@@ -118,39 +127,20 @@ handleYear=(e)=>{
      </div>
      <div className = "results">
          {this.state.showChart === true ? (
+             <div className="graph-cont">
           
              <Chart data={this.state.playerStats}/> 
+             </div>
          )
          : (
-            <div className = "loading">
+            <div className = "pre-submit">
             "Enter player name to see season averages"
             </div>
          
          )
   }
     
-   {/*
-   <h2>Season Averages:</h2>
-     <ul>
-        <li>games played: {this.state.playerStats["games_played"]}</li>
-        <li>minutes:{this.state.playerStats["min"]}</li>
-        <li> points: {this.state.playerStats["pts"]}</li>
-        <li> rebounds: {this.state.playerStats["reb"]}</li>
-        <li> assists: {this.state.playerStats["ast"]}</li>
-  <li>steals:{this.state.playerStats["stl"]}</li>
-        <li>turnovers: {this.state.playerStats["turnover"]}</li>
-        <li>Field goal: {this.state.playerStats["fg_pct"]}</li>
-        <li>FG A "fga"</li>
-        <li>FG M "fgm"</li>
-        <li>3pt %:{this.state.playerStats["fg3_pct"]} </li>
-        <li>3PT A "fg3a"</li>
-        <li>3PT M "fg3m"</li>
-        <li>Free throw %: {this.state.playerStats["ft_pct"]}</li>
-        <li>FT A "fta"</li>
-        <li>FT M "ftm"</li>
 
-     </ul>
-   */}
      </div>
 
 
