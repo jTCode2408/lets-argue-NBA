@@ -12,14 +12,17 @@ class Player extends Component {
     super(props)
     this.state={
       player: null,
+      year: null,
       playerStats: {},
+      showChart: false
 
     }
   }
 
 handleSubmit = (e) => {
   e.preventDefault();
-  this.getPlayerId()
+  this.getPlayerId();
+  this.setState({showChart:true})
   console.log('SUBMITTING', this.state.player)
 }
 
@@ -31,7 +34,11 @@ handleChange = (e) => {
     alert("Please type players name!")
   }
 }
+handleYear=(e)=>{
+    const getYear = e.target.value
+   this.setState({year : getYear})
 
+}
   getPlayerId = () => {
     axios.get(`https://www.balldontlie.io/api/v1/players?search=${this.state.player}`)
     .then(async res => {
@@ -50,21 +57,33 @@ handleChange = (e) => {
   }
 
   getPlayerStats = (id) => {
-    axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=2006&player_ids[]=${id}`)
+      
+    const year =this.state.year
+    axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${year}&player_ids[]=${id}`)
     .then(async res => {
+       
+        const displayData = Object.keys(res.data.data[0]).reduce((object, key) => {
+            if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf") {
+              object[key] = res.data.data[0][key]
+            }
+            console.log("displayData", object)
+            return object
+          }, {})
+
         const chartData= 
-            {labels:Object.keys(res.data.data[0]),
+            {labels:[ 'ast','blk','fg3_pct', 'fg3a', 'fg3m', 'fg_pct', 'fga', 'fgm', 'ft_pct','fta', 'ftm', 'games_played', 'POINTS', 'rebounds', 'steal','turnover'],
                 datasets:[{
-                label: "Season Averages",
-                data: Object.values(res.data.data[0])
+                label: "Season Average",
+                data: Object.values(displayData)
         
                 }]
             }
-         
+        
       this.setState({ 
     playerStats: chartData})
+
 })
-       
+  
     .catch(err => {
       console.log(err)
     })
@@ -85,11 +104,30 @@ handleChange = (e) => {
           placeholder="player name"
          />
        </label>
-       <input type="submit" value="Get Stats"/>
+       <label>
+         Year
+         <input 
+          type="text"
+          value={this.state.value}
+          onChange={this.handleYear}
+          placeholder="season"
+         />
+       </label>
+       <input type="submit"  value="Get Stats"/>
      </form>
      </div>
      <div className = "results">
-         <Chart data={this.state.playerStats}/>
+         {this.state.showChart === true ? (
+          
+             <Chart data={this.state.playerStats}/> 
+         )
+         : (
+            <div className = "loading">
+            "Enter player name to see season averages"
+            </div>
+         
+         )
+  }
     
    {/*
    <h2>Season Averages:</h2>
