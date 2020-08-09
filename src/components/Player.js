@@ -61,18 +61,27 @@ handleYear=(e)=>{
     const year =this.state.year
     axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${year}&player_ids[]=${id}`)
     .then(async res => {
+       
+        const displayData = Object.keys(res.data.data[0]).reduce((object, key) => {
+            if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf") {
+              object[key] = res.data.data[0][key]
+            }
+            console.log("displayData", object)
+            return object
+          }, {})
+
         const chartData= 
-            {labels:Object.keys(res.data.data[0]),
+            {labels:[ 'ast','blk','fg3_pct', 'fg3a', 'fg3m', 'fg_pct', 'fga', 'fgm', 'ft_pct','fta', 'ftm', 'games_played', 'POINTS', 'rebounds', 'steal','turnover'],
                 datasets:[{
-                label: "Season Averages",
-                data: Object.values(res.data.data[0])
+                label: "Season Average",
+                data: Object.values(displayData)
         
                 }]
             }
-         
+        
       this.setState({ 
     playerStats: chartData})
-    console.log("STATS", res.data.data[0])   
+
 })
   
     .catch(err => {
