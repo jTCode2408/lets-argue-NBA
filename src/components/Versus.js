@@ -120,16 +120,14 @@ handleChange = (e) => {
             return object
           }, {})
 
-  
       const chartData= 
-      {labels:[ 'ASSITS','BLOCKS','3PT %', '3PT ATTEMPTS', '3PT MAKES', 'FG %', 'FG ATTEMPTS', 'FG MAKES', 'FT %','FT ATTEMPS', 'FT MAKES', 'GAMES', 'POINTS', 'REBOUNDS', 'STEALS','TURNOVERS'],
+      {labels:[ 'GAMES','FG MAKES','FG ATTEMPTS', '3PT MAKES', '3PT ATTEMPTS', 'FT MAKES', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
           datasets:[{
           label: "Season Averages",
           data: Object.values(displayData)
   
           }]
       }
-   
         this.setState({ p1Stats: chartData})
 
     }).catch(err => {
@@ -150,7 +148,7 @@ handleChange = (e) => {
           }, {})
 
       const chartData= 
-      {labels:[  'ASSITS','BLOCKS','3PT %', '3PT ATTEMPTS', '3PT MAKES', 'FG %', 'FG ATTEMPTS', 'FG MAKES', 'FT %','FT ATTEMPS', 'FT MAKES', 'GAMES', 'POINTS', 'REBOUNDS', 'STEALS','TURNOVERS'],
+      {labels:[ 'GAMES','FG MAKES','FG ATTEMPTS', '3PT MAKES', '3PT ATTEMPTS', 'FT MAKES', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
           datasets:[{
           label: "Season Averages",
           data: Object.values(displayData)
@@ -226,13 +224,9 @@ handleChange = (e) => {
          </div>
       
       )
-}
-    
-    
+}   
      </div>{/*results cont end*/}
-
-
-    </div> /*players cont end*/
+   </div> /*players cont end*/
   );
 }
 }

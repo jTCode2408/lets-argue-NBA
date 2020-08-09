@@ -3,7 +3,6 @@ import axios from "axios";
 import {Route, Link, Switch} from 'react-router-dom';
 import Versus from './Versus';
 import Nav from './Nav';
-
 import Chart from './Chart';
 
 
@@ -70,7 +69,7 @@ handleYear=(e)=>{
     const year =this.state.year
     axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${year}&player_ids[]=${id}`)
     .then(async res => {
-       
+       console.log("ORIGINAL CALL", res.data.data[0])
         const displayData = Object.keys(res.data.data[0]).reduce((object, key) => {
             if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf") {
               object[key] = res.data.data[0][key]
@@ -80,7 +79,7 @@ handleYear=(e)=>{
           }, {})
 
         const chartData= 
-            {labels:[  'ASSITS','BLOCKS','3PT %', '3PT ATTEMPTS', '3PT MAKES', 'FG %', 'FG ATTEMPTS', 'FG MAKES', 'FT %','FT ATTEMPS', 'FT MAKES', 'GAMES', 'POINTS', 'REBOUNDS', 'STEALS','TURNOVERS'],
+            {labels:[  'GAMES','FG MAKES','FG ATTEMPTS', '3PT MAKES', '3PT ATTEMPTS', 'FT MAKES', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
                 datasets:[{
                 label: "Season Average",
                 data: Object.values(displayData)
