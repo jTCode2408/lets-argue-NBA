@@ -1,6 +1,9 @@
 import React from 'react';
 import './App.css';
 import Home from './components/Home';
+import {Route, Switch} from 'react-router-dom';
+import Player from './components/Player';
+import Versus from './components/Versus';
 
 function App() {
   return (
@@ -9,7 +12,13 @@ function App() {
     <h1> Let's Argue!</h1>
       </header>
 
-      <Home/>
+  
+      <Switch>
+      <Route exact path="/"><Home/></Route>
+      <Route path="/player"><Player/> </Route>
+                
+        <Route path="/compare" ><Versus/></Route>
+        </Switch>
     </div>
   );
 }
