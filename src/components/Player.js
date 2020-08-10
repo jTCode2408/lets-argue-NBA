@@ -4,7 +4,7 @@ import {Route, Link, Switch} from 'react-router-dom';
 import Versus from './Versus';
 import Nav from './Nav';
 import Chart from './Chart';
-
+import pattern from 'patternomaly';
 
 class Player extends Component {
   constructor(props){
@@ -71,19 +71,35 @@ handleYear=(e)=>{
     .then(async res => {
        console.log("ORIGINAL CALL", res.data.data[0])
         const displayData = Object.keys(res.data.data[0]).reduce((object, key) => {
-            if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf") {
+            if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf" && key !=="fgm"  && key !=="fg3m" && key !=="ftm" ) {
               object[key] = res.data.data[0][key]
             }
             console.log("displayData", object)
             return object
           }, {})
-
+//FG makes(fgm),  3PT MAKES(fg3m), FT MAKES(ftm)
         const chartData= 
-            {labels:[  'GAMES','FG MAKES','FG ATTEMPTS', '3PT MAKES', '3PT ATTEMPTS', 'FT MAKES', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
+            {labels:[  'GAMES','FG ATTEMPTS', '3PT ATTEMPTS', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
                 datasets:[{
                 label: "Season Average",
-                data: Object.values(displayData)
-        
+                data: Object.values(displayData),
+                backgroundColor: [
+                    pattern.draw('diamond', '#1f77b4'), //games
+                    pattern.draw('disc', '#ff7f0e'), //fg Attempt
+                    pattern.draw('square', '#2ca02c'), // 3 atte
+                    pattern.draw('triangle', '#17becf'), //ft att
+                    pattern.draw('diamond', '#2ca02c'),//reb
+                    pattern.draw('diamond', '#1f77b4'), //ast
+                    pattern.draw('diamond', '#ff7f0e'), //stl
+                    pattern.draw('diamond', '#2ca02c'), //blk
+                    pattern.draw('diamond', '#17becf'), //trn
+                    pattern.draw('disc', '#2ca02c'), //pts
+                    pattern.draw('disc', '#2ca02c'), //fg%
+                    pattern.draw('square', '#2ca02c'),//3 %
+                    pattern.draw('triangle', '#2ca02c') //ft %
+                ]
+               
+        //disc( Points, FG Attempt, FG %), square( 3 att, 3 %), triagnle(ft att, ft %), diamond(games, rebs, ast, stl, blk, trn)
                 }]
             }
         

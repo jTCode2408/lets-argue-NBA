@@ -152,7 +152,7 @@ handleChange = (e) => {
           datasets:[{
           label: "Season Averages",
           data: Object.values(displayData)
-  
+   //ring, box, triangle-inverted, diamond box (p2)
           }]
       }
    
