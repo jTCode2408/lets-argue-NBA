@@ -3,10 +3,11 @@ import {defaults, Bar} from 'react-chartjs-2'
 
 const Chart = ({data})=>{
 
-    return <Bar data={data} 
-    height= {20} 
-    width= {50}
-    options={{height:"500px", responsive: true,  }} />
+    return <Bar 
+    data={data} 
+    height= {25} 
+    width= {60}
+    options={{ responsive: true  }} />
     
 }
 

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import {Route, Link, Switch} from 'react-router-dom';
-import Versus from './Versus';
+import {Link} from 'react-router-dom';
 import Nav from './Nav';
 import Chart from './Chart';
 import pattern from 'patternomaly';
@@ -14,7 +13,6 @@ class Player extends Component {
       year: null,
       playerStats: {},
       showChart: false
-
     }
   }
 
@@ -50,9 +48,8 @@ handleYear=(e)=>{
   getPlayerId = () => {
     axios.get(`https://www.balldontlie.io/api/v1/players?search=${this.state.player}`)
     .then(async res => {
-      // console.log(res.data.data)
       if(res.data.data[0] === undefined){
-        alert("This player is either injured or did not play this season")
+        alert("This player is injured or did not play this season")
       } else if(res.data.data.length > 1){
         alert("Pleases specify player name")
       } else{
@@ -65,49 +62,43 @@ handleYear=(e)=>{
   }
 
   getPlayerStats = (id) => {
-      
     const year =this.state.year
     axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${year}&player_ids[]=${id}`)
     .then(async res => {
-       console.log("ORIGINAL CALL", res.data.data[0])
         const displayData = Object.keys(res.data.data[0]).reduce((object, key) => {
             if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf" && key !=="fgm"  && key !=="fg3m" && key !=="ftm" ) {
               object[key] = res.data.data[0][key]
             }
-            console.log("displayData", object)
+
             return object
           }, {})
-//FG makes(fgm),  3PT MAKES(fg3m), FT MAKES(ftm)
+
         const chartData= 
             {labels:[  'GAMES','FG ATTEMPTS', '3PT ATTEMPTS', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
                 datasets:[{
-                label: "Season Average",
+                label: "Season Averages",
                 data: Object.values(displayData),
                 backgroundColor: [
-                    pattern.draw('diamond', '#1f77b4'), //games
-                    pattern.draw('disc', '#ff7f0e'), //fg Attempt
-                    pattern.draw('square', '#2ca02c'), // 3 atte
-                    pattern.draw('triangle', '#17becf'), //ft att
-                    pattern.draw('diamond', '#2ca02c'),//reb
-                    pattern.draw('diamond', '#1f77b4'), //ast
-                    pattern.draw('diamond', '#ff7f0e'), //stl
-                    pattern.draw('diamond', '#2ca02c'), //blk
-                    pattern.draw('diamond', '#17becf'), //trn
-                    pattern.draw('disc', '#2ca02c'), //pts
-                    pattern.draw('disc', '#2ca02c'), //fg%
-                    pattern.draw('square', '#2ca02c'),//3 %
-                    pattern.draw('triangle', '#2ca02c') //ft %
+                    pattern.draw('diamond', '#552583'), //games
+                    pattern.draw('disc', '#FDB927'), //fg Attempt
+                    pattern.draw('square', '#000000'), // 3 atte
+                    pattern.draw('triangle', '#63727A'), //ft att
+                    pattern.draw('diamond', '#552583'),//reb
+                    pattern.draw('diamond', '#552583'), //ast
+                    pattern.draw('diamond', '#552583'), //stl
+                    pattern.draw('diamond', '#552583'), //blk
+                    pattern.draw('diamond', '#552583'), //trn
+                    pattern.draw('disc', '#FDB927'), //pts
+                    pattern.draw('disc', '#FDB927'), //fg%
+                    pattern.draw('square', '#000000'),//3 %
+                    pattern.draw('triangle', '#63727A') //ft %
                 ]
-               
-        //disc( Points, FG Attempt, FG %), square( 3 att, 3 %), triagnle(ft att, ft %), diamond(games, rebs, ast, stl, blk, trn)
                 }]
             }
         
       this.setState({ 
     playerStats: chartData})
-
 })
-  
     .catch(err => {
       console.log(err)
     })
@@ -120,7 +111,7 @@ handleYear=(e)=>{
         <div className="form-cont">
      <form onSubmit={this.handleSubmit} className = "player1-form">
        <label>
-         PLAYER
+      
          <input className="player-input"
           type="text"
           value={this.state.value}
@@ -129,7 +120,7 @@ handleYear=(e)=>{
          />
        </label>
        <label>
-         SEASON
+       
          <input className="year-input"
           type="text"
           value={this.state.value}
@@ -139,27 +130,29 @@ handleYear=(e)=>{
        </label>
        <input type="submit"  value="Get Stats"/>
      </form>
-     </div>
+     </div> 
+     
      <div className = "results">
          {this.state.showChart === true ? (
              <div className="graph-cont">
-          
              <Chart data={this.state.playerStats}/> 
              </div>
          )
          : (
             <div className = "pre-submit">
-            "Enter player name to see season averages"
+            Enter player name to see season averages
             </div>
          
          )
   }
+
+  <button><Link to="/compare">Compare </Link></button>
     
 
-     </div>
+     </div> {/*results cont end*/}
 
 
-    </div>
+    </div>//cont end
   );
 }
 }

@@ -1,12 +1,8 @@
-//for searching 2 players...results returned
-// api/v1/season_averages?season=2018&player_ids[]=1&player_ids[]=2 will return regular season averages for player_ids 1 and 2.
-//ALL SEASON DROPDOWN
-//will have 2 do 2 playerId calls, then add id, other id to getplayer stats
-
 import React, {Component} from 'react';
 import axios from "axios";
 import Nav from './Nav';
 import Chart from './Chart';
+import pattern from 'patternomaly';
 
 class Versus extends Component {
   constructor(props){
@@ -41,8 +37,9 @@ handleSubmit = (e) => {
     } else{
       this.setState({showChart:true})
   }
-  
+this.setState({value: ""})
 }
+
 
 handleChange = (e) => {
   const splitting = e.target.value.split(" ").join("_");
@@ -113,18 +110,34 @@ handleChange = (e) => {
     axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${year}&player_ids[]=${id1}`)
     .then(async res => {
         const displayData = Object.keys(res.data.data[0]).reduce((object, key) => {
-            if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf") {
+            if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf" && key !=="fgm"  && key !=="fg3m" && key !=="ftm" ) {
               object[key] = res.data.data[0][key]
             }
-            console.log("displayData", object)
+         
             return object
           }, {})
 
       const chartData= 
-      {labels:[ 'GAMES','FG MAKES','FG ATTEMPTS', '3PT MAKES', '3PT ATTEMPTS', 'FT MAKES', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
+      {labels:[  'GAMES','FG ATTEMPTS', '3PT ATTEMPTS', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
           datasets:[{
           label: "Season Averages",
-          data: Object.values(displayData)
+          data: Object.values(displayData),
+          fontColor: "blue",
+          backgroundColor: [
+            pattern.draw('diamond', '#552583'), //games
+            pattern.draw('disc', '#FDB927'), //fg Attempt
+            pattern.draw('square', '#000000'), // 3 atte
+            pattern.draw('triangle', '#63727A'), //ft att
+            pattern.draw('diamond', '#552583'),//reb
+            pattern.draw('diamond', '#552583'), //ast
+            pattern.draw('diamond', '#552583'), //stl
+            pattern.draw('diamond', '#552583'), //blk
+            pattern.draw('diamond', '#552583'), //trn
+            pattern.draw('disc', '#FDB927'), //pts
+            pattern.draw('disc', '#FDB927'), //fg%
+            pattern.draw('square', '#000000'),//3 %
+            pattern.draw('triangle', '#63727A') //ft %
+        ]
   
           }]
       }
@@ -140,19 +153,34 @@ handleChange = (e) => {
     axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${year}&player_ids[]=${id2}`)
     .then(async res => {
         const displayData = Object.keys(res.data.data[0]).reduce((object, key) => {
-            if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf") {
+            if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf" && key !=="fgm"  && key !=="fg3m" && key !=="ftm" ) {
               object[key] = res.data.data[0][key]
             }
-            console.log("displayData", object)
+           
             return object
           }, {})
 
       const chartData= 
-      {labels:[ 'GAMES','FG MAKES','FG ATTEMPTS', '3PT MAKES', '3PT ATTEMPTS', 'FT MAKES', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
+      {labels:[  'GAMES','FG ATTEMPTS', '3PT ATTEMPTS', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
           datasets:[{
           label: "Season Averages",
-          data: Object.values(displayData)
-   //ring, box, triangle-inverted, diamond box (p2)
+          data: Object.values(displayData),
+ 
+        backgroundColor: [
+                    pattern.draw('diamond-box', 'rgba(85,37,130, 0.7)'), //games
+                    pattern.draw('ring', 'rgba(253,185,39, 0.7)'), //fg Attempt
+                    pattern.draw('box', 'rgba(6,25,34, 0.7)'), // 3 atte
+                    pattern.draw('triangle-inverted', 'rgba(99,113,122, 0.7)'), //ft att
+                    pattern.draw('diamond-box', 'rgba(85,37,130, 0.7)'),//reb
+                    pattern.draw('diamond-box', 'rgba(85,37,130, 0.7)'), //ast
+                    pattern.draw('diamond-box', 'rgba(85,37,130, 0.7'), //stl
+                    pattern.draw('diamond-box', 'rgba(85,37,130, 0.7)'), //blk
+                    pattern.draw('diamond-box', 'rgba(85,37,130, 0.7)'), //trn
+                    pattern.draw('ring', 'rgba(253,185,39, 0.7)'), //pts
+                    pattern.draw('ring', 'rgba(253,185,39, 0.7)'), //fg%
+                    pattern.draw('box', 'rgba(6,25,34, 0.7)'),//3 %
+                    pattern.draw('triangle-inverted', 'rgba(99,113,122, 0.7)') //ft %
+                ]
           }]
       }
    
@@ -171,25 +199,25 @@ handleChange = (e) => {
         <div className="inputs-cont">
      <form onSubmit={this.handleSubmit} className = "players-inputs">
        <label>
-         PLAYER 1
+         
          <input className="p1-input"
           type="text"
           value={this.state.value}
           onChange={this.handleChange}
-          placeholder="player1 name"
+          placeholder="player name"
          />
            </label>
            <label>
-               PLAYER 2
+          
         <input 
           type="text" className="p2-input"
           value={this.state.value}
           onChange={this.handlep2Change}
-          placeholder="player2 name"
+          placeholder="player name"
          />
        </label>
        <label>
-         SEASON
+       
          <input  className="year-input"
           type="text"
           value={this.state.value}
@@ -197,7 +225,7 @@ handleChange = (e) => {
           placeholder="season"
          />
        </label>
-       <input type="submit" value="Get Stats"/>
+       <input type="submit" value="Let's Compare"/>
      </form>
      </div> {/*input cont end*/}
 
@@ -220,7 +248,7 @@ handleChange = (e) => {
       )
       : (
          <div className = "pre-submit">
-         "Enter player names to see season averages"
+         Enter player names to see season averages
          </div>
       
       )
