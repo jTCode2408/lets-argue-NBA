@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import {Route, Link, Switch} from 'react-router-dom';
-import Versus from './Versus';
+import {Link} from 'react-router-dom';
 import Nav from './Nav';
-
 import Chart from './Chart';
-
+import pattern from 'patternomaly';
 
 class Player extends Component {
   constructor(props){
@@ -15,15 +13,23 @@ class Player extends Component {
       year: null,
       playerStats: {},
       showChart: false
-
     }
   }
 
 handleSubmit = (e) => {
   e.preventDefault();
   this.getPlayerId();
-  this.setState({showChart:true})
-  console.log('SUBMITTING', this.state.player)
+  if(this.state.year === null){
+    alert("please enter a season")
+
+} else if(this.state.year.length < 4){
+  alert(" please enter year 4 digit format")
+}
+  else if(this.state.year < "1980"){
+      alert("please enter season after 1980")
+  } else{
+    this.setState({showChart:true})
+}
 }
 
 handleChange = (e) => {
@@ -42,9 +48,8 @@ handleYear=(e)=>{
   getPlayerId = () => {
     axios.get(`https://www.balldontlie.io/api/v1/players?search=${this.state.player}`)
     .then(async res => {
-      // console.log(res.data.data)
       if(res.data.data[0] === undefined){
-        alert("This player is either injured or did not play this season")
+        alert("This player is injured or did not play this season")
       } else if(res.data.data.length > 1){
         alert("Pleases specify player name")
       } else{
@@ -57,33 +62,43 @@ handleYear=(e)=>{
   }
 
   getPlayerStats = (id) => {
-      
     const year =this.state.year
     axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${year}&player_ids[]=${id}`)
     .then(async res => {
-       
         const displayData = Object.keys(res.data.data[0]).reduce((object, key) => {
-            if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf") {
+            if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf" && key !=="fgm"  && key !=="fg3m" && key !=="ftm" ) {
               object[key] = res.data.data[0][key]
             }
-            console.log("displayData", object)
+
             return object
           }, {})
 
         const chartData= 
-            {labels:[ 'ast','blk','fg3_pct', 'fg3a', 'fg3m', 'fg_pct', 'fga', 'fgm', 'ft_pct','fta', 'ftm', 'games_played', 'POINTS', 'rebounds', 'steal','turnover'],
+            {labels:[  'GAMES','FG ATTEMPTS', '3PT ATTEMPTS', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
                 datasets:[{
-                label: "Season Average",
-                data: Object.values(displayData)
-        
+                label: "Season Averages",
+                data: Object.values(displayData),
+                backgroundColor: [
+                    pattern.draw('diamond', '#552583'), //games
+                    pattern.draw('disc', '#FDB927'), //fg Attempt
+                    pattern.draw('square', '#000000'), // 3 atte
+                    pattern.draw('triangle', '#63727A'), //ft att
+                    pattern.draw('diamond', '#552583'),//reb
+                    pattern.draw('diamond', '#552583'), //ast
+                    pattern.draw('diamond', '#552583'), //stl
+                    pattern.draw('diamond', '#552583'), //blk
+                    pattern.draw('diamond', '#552583'), //trn
+                    pattern.draw('disc', '#FDB927'), //pts
+                    pattern.draw('disc', '#FDB927'), //fg%
+                    pattern.draw('square', '#000000'),//3 %
+                    pattern.draw('triangle', '#63727A') //ft %
+                ]
                 }]
             }
         
       this.setState({ 
     playerStats: chartData})
-
 })
-  
     .catch(err => {
       console.log(err)
     })
@@ -96,8 +111,8 @@ handleYear=(e)=>{
         <div className="form-cont">
      <form onSubmit={this.handleSubmit} className = "player1-form">
        <label>
-         Name
-         <input 
+      
+         <input className="player-input"
           type="text"
           value={this.state.value}
           onChange={this.handleChange}
@@ -105,8 +120,8 @@ handleYear=(e)=>{
          />
        </label>
        <label>
-         Year
-         <input 
+       
+         <input className="year-input"
           type="text"
           value={this.state.value}
           onChange={this.handleYear}
@@ -115,46 +130,29 @@ handleYear=(e)=>{
        </label>
        <input type="submit"  value="Get Stats"/>
      </form>
-     </div>
+     </div> 
+     
      <div className = "results">
          {this.state.showChart === true ? (
-          
+             <div className="graph-cont">
              <Chart data={this.state.playerStats}/> 
+             </div>
          )
          : (
-            <div className = "loading">
-            "Enter player name to see season averages"
+            <div className = "pre-submit">
+            Enter player name to see season averages
             </div>
          
          )
   }
+
+  <button><Link to="/compare">Compare </Link></button>
     
-   {/*
-   <h2>Season Averages:</h2>
-     <ul>
-        <li>games played: {this.state.playerStats["games_played"]}</li>
-        <li>minutes:{this.state.playerStats["min"]}</li>
-        <li> points: {this.state.playerStats["pts"]}</li>
-        <li> rebounds: {this.state.playerStats["reb"]}</li>
-        <li> assists: {this.state.playerStats["ast"]}</li>
-  <li>steals:{this.state.playerStats["stl"]}</li>
-        <li>turnovers: {this.state.playerStats["turnover"]}</li>
-        <li>Field goal: {this.state.playerStats["fg_pct"]}</li>
-        <li>FG A "fga"</li>
-        <li>FG M "fgm"</li>
-        <li>3pt %:{this.state.playerStats["fg3_pct"]} </li>
-        <li>3PT A "fg3a"</li>
-        <li>3PT M "fg3m"</li>
-        <li>Free throw %: {this.state.playerStats["ft_pct"]}</li>
-        <li>FT A "fta"</li>
-        <li>FT M "ftm"</li>
 
-     </ul>
-   */}
-     </div>
+     </div> {/*results cont end*/}
 
 
-    </div>
+    </div>//cont end
   );
 }
 }

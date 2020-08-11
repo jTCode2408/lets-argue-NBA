@@ -1,12 +1,8 @@
-//for searching 2 players...results returned
-// api/v1/season_averages?season=2018&player_ids[]=1&player_ids[]=2 will return regular season averages for player_ids 1 and 2.
-//ALL SEASON DROPDOWN
-//will have 2 do 2 playerId calls, then add id, other id to getplayer stats
-
 import React, {Component} from 'react';
 import axios from "axios";
 import Nav from './Nav';
 import Chart from './Chart';
+import pattern from 'patternomaly';
 
 class Versus extends Component {
   constructor(props){
@@ -16,7 +12,12 @@ class Versus extends Component {
       player2: null,
       p1Stats: {},
       p2Stats:{},
-      year: null
+      year: null,
+      showChart: false,
+      p1First: null,
+      p1Last:null,
+      p2First:null,
+      p2Last:null
     }
   }
 
@@ -24,9 +25,21 @@ handleSubmit = (e) => {
   e.preventDefault();
   this.getPOneId();
   this.getPTwoId();
-  console.log('SUBMITTING1', this.state.player1)
-  console.log('SUBMITTING2', this.state.player2)
+ 
+  if(this.state.year === null){
+      alert("please enter a season")
+
+  } else if(this.state.year.length < 4){
+    alert(" please enter year 4 digit format")
+  }
+    else if(this.state.year < "1980"){
+        alert("please enter season after 1980")
+    } else{
+      this.setState({showChart:true})
+  }
+this.setState({value: ""})
 }
+
 
 handleChange = (e) => {
   const splitting = e.target.value.split(" ").join("_");
@@ -48,20 +61,21 @@ handleChange = (e) => {
 
  handleYear=(e)=>{
     const getYear = e.target.value
-   this.setState({year : getYear})
-
-
+    this.setState({year : getYear})
+    
 }
   getPOneId = () => {
     axios.get(`https://www.balldontlie.io/api/v1/players?search=${this.state.player1}`)
     .then(async res => {
-      console.log("P1 ID", res.data.data)
+      
       if(res.data.data[0] === undefined){
-        alert("This player is either injured or did not play this season")
+        alert("player is injured or did not play this season")
       } else if(res.data.data.length > 1){
         alert("Pleases specify player name")
       } else{
         await this.getPOneStats(res.data.data[0].id)
+        this.setState({p1First: res.data.data[0].first_name})
+        this.setState({p1Last: res.data.data[0].last_name})
 
       }
     }).catch(err => {
@@ -73,7 +87,7 @@ handleChange = (e) => {
   getPTwoId = () => {
     axios.get(`https://www.balldontlie.io/api/v1/players?search=${this.state.player2}`)
     .then(async res => {
-      console.log("P2 ID",res.data.data)
+
       if(res.data.data[0] === undefined){
         alert("This player is either injured or did not play this season")
       }
@@ -81,6 +95,8 @@ handleChange = (e) => {
         alert("Pleases specify player name")
       } else{
         await this.getPTwoStats(res.data.data[0].id)
+        this.setState({p2First:res.data.data[0].first_name})
+        this.setState({p2Last:res.data.data[0].last_name})
 
       }
     }).catch(err => {
@@ -93,16 +109,38 @@ handleChange = (e) => {
     const year =this.state.year
     axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${year}&player_ids[]=${id1}`)
     .then(async res => {
-  
+        const displayData = Object.keys(res.data.data[0]).reduce((object, key) => {
+            if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf" && key !=="fgm"  && key !=="fg3m" && key !=="ftm" ) {
+              object[key] = res.data.data[0][key]
+            }
+         
+            return object
+          }, {})
+
       const chartData= 
-      {labels:Object.keys(res.data.data[0]),
+      {labels:[  'GAMES','FG ATTEMPTS', '3PT ATTEMPTS', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
           datasets:[{
           label: "Season Averages",
-          data: Object.values(res.data.data[0])
+          data: Object.values(displayData),
+          fontColor: "blue",
+          backgroundColor: [
+            pattern.draw('diamond', '#552583'), //games
+            pattern.draw('disc', '#FDB927'), //fg Attempt
+            pattern.draw('square', '#000000'), // 3 atte
+            pattern.draw('triangle', '#63727A'), //ft att
+            pattern.draw('diamond', '#552583'),//reb
+            pattern.draw('diamond', '#552583'), //ast
+            pattern.draw('diamond', '#552583'), //stl
+            pattern.draw('diamond', '#552583'), //blk
+            pattern.draw('diamond', '#552583'), //trn
+            pattern.draw('disc', '#FDB927'), //pts
+            pattern.draw('disc', '#FDB927'), //fg%
+            pattern.draw('square', '#000000'),//3 %
+            pattern.draw('triangle', '#63727A') //ft %
+        ]
   
           }]
       }
-   
         this.setState({ p1Stats: chartData})
 
     }).catch(err => {
@@ -114,13 +152,35 @@ handleChange = (e) => {
     const year =this.state.year
     axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${year}&player_ids[]=${id2}`)
     .then(async res => {
+        const displayData = Object.keys(res.data.data[0]).reduce((object, key) => {
+            if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf" && key !=="fgm"  && key !=="fg3m" && key !=="ftm" ) {
+              object[key] = res.data.data[0][key]
+            }
+           
+            return object
+          }, {})
 
       const chartData= 
-      {labels:Object.keys(res.data.data[0]),
+      {labels:[  'GAMES','FG ATTEMPTS', '3PT ATTEMPTS', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
           datasets:[{
           label: "Season Averages",
-          data: Object.values(res.data.data[0])
-  
+          data: Object.values(displayData),
+ 
+        backgroundColor: [
+                    pattern.draw('diamond-box', 'rgba(85,37,130, 0.7)'), //games
+                    pattern.draw('ring', 'rgba(253,185,39, 0.7)'), //fg Attempt
+                    pattern.draw('box', 'rgba(6,25,34, 0.7)'), // 3 atte
+                    pattern.draw('triangle-inverted', 'rgba(99,113,122, 0.7)'), //ft att
+                    pattern.draw('diamond-box', 'rgba(85,37,130, 0.7)'),//reb
+                    pattern.draw('diamond-box', 'rgba(85,37,130, 0.7)'), //ast
+                    pattern.draw('diamond-box', 'rgba(85,37,130, 0.7'), //stl
+                    pattern.draw('diamond-box', 'rgba(85,37,130, 0.7)'), //blk
+                    pattern.draw('diamond-box', 'rgba(85,37,130, 0.7)'), //trn
+                    pattern.draw('ring', 'rgba(253,185,39, 0.7)'), //pts
+                    pattern.draw('ring', 'rgba(253,185,39, 0.7)'), //fg%
+                    pattern.draw('box', 'rgba(6,25,34, 0.7)'),//3 %
+                    pattern.draw('triangle-inverted', 'rgba(99,113,122, 0.7)') //ft %
+                ]
           }]
       }
    
@@ -133,54 +193,68 @@ handleChange = (e) => {
   
   render(){
   return (
-    <div className="player-cont">
+    <div className="players-cont">
         <Nav/>
-        <div className="forms-cont">
-     <form onSubmit={this.handleSubmit} className = "players-form">
+
+        <div className="inputs-cont">
+     <form onSubmit={this.handleSubmit} className = "players-inputs">
        <label>
-         p1Name
-         <input 
+         
+         <input className="p1-input"
           type="text"
           value={this.state.value}
           onChange={this.handleChange}
-          placeholder="player1 name"
+          placeholder="player name"
          />
            </label>
            <label>
-               p2Name
+          
         <input 
-          type="text"
+          type="text" className="p2-input"
           value={this.state.value}
           onChange={this.handlep2Change}
-          placeholder="player2 name"
+          placeholder="player name"
          />
        </label>
        <label>
-         Year
-         <input 
+       
+         <input  className="year-input"
           type="text"
           value={this.state.value}
           onChange={this.handleYear}
           placeholder="season"
          />
        </label>
-       <input type="submit" value="Get Stats"/>
+       <input type="submit" value="Let's Compare"/>
      </form>
-     </div>
-     <div className = "results">
-         <div className="p1-graph"> 
-         <h2>Player 1</h2>
-     <Chart data={this.state.p1Stats}/> 
-     </div>
-     <div className = "p2-graph">
-     <h2>Player 2</h2>
-     <Chart data={this.state.p2Stats}/> 
-     </div>
-    
-     </div>
+     </div> {/*input cont end*/}
 
+     <div className = "results-cont">
 
-    </div>
+     {this.state.showChart === true ? (
+         <div className="graphs-cont">
+
+         <div className = "p1=graph-cont">
+     <h2>{this.state.p1First} {this.state.p1Last}</h2>
+          <Chart data={this.state.p1Stats}/> 
+          </div>
+
+          <div className="p2-graph-cont">
+     <h2>{this.state.p2First} {this.state.p2Last}</h2>
+          <Chart data={this.state.p2Stats}/> 
+          </div>
+
+          </div> //BOTH graphs div end
+      )
+      : (
+         <div className = "pre-submit">
+         Enter player names to see season averages
+         </div>
+      
+      )
+}   
+     </div>{/*results cont end*/}
+   </div> /*players cont end*/
   );
 }
 }

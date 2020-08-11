@@ -1,11 +1,13 @@
 import React from 'react';
-import {Line, Bar} from 'react-chartjs-2'
+import {defaults, Bar} from 'react-chartjs-2'
 
 const Chart = ({data})=>{
 
-
-
-    return <Bar data={data} options={{ responsive: true, height: '500px', width: "400px" }} />
+    return <Bar 
+    data={data} 
+    height= {25} 
+    width= {60}
+    options={{ responsive: true  }} />
     
 }
 
