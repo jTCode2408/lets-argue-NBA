@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import {
+    Navbar,
+    Nav,
+    NavItem,
+    NavLink,
+  } from 'reactstrap';
 
-class Nav extends Component{
+class Navigation extends Component{
     constructor(props){
     super()
     }
@@ -11,14 +17,23 @@ class Nav extends Component{
 
     return (
 <div className="nav-cont">
-    <nav>
-        <Link to="/">Home</Link>
-        <Link to="/player">Single Player</Link>
-        <Link to="/compare">Compare Players</Link>
-    </nav>
+  
+    <Nav pills>
+        <NavItem>
+        <NavLink href="/">Home</NavLink>
+        </NavItem>
+
+        <NavItem>
+        <NavLink href="/player">Single Player</NavLink>
+        </NavItem>
+
+        <NavItem>
+        <NavLink href="/compare">Compare Players</NavLink>
+        </NavItem>
+    </Nav>
 </div>
     );
     }
 }
 
-export default Nav;
+export default Navigation;

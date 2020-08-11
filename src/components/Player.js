@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import axios from "axios";
 import {Link} from 'react-router-dom';
-import Nav from './Nav';
+import Navigation from './Nav';
 import Chart from './Chart';
 import pattern from 'patternomaly';
+import { Button, Form, FormGroup,Input } from 'reactstrap';
 
 class Player extends Component {
   constructor(props){
@@ -12,14 +13,16 @@ class Player extends Component {
       player: null,
       year: null,
       playerStats: {},
-      showChart: false
+      showChart: false,
     }
   }
+
 
 handleSubmit = (e) => {
   e.preventDefault();
   this.getPlayerId();
   if(this.state.year === null){
+    
     alert("please enter a season")
 
 } else if(this.state.year.length < 4){
@@ -37,7 +40,7 @@ handleChange = (e) => {
   if(splitting.length > 0){
     this.setState({player: splitting})
   } else {
-    alert("Please type players name!")
+    alert("Please type players name")
   }
 }
 handleYear=(e)=>{
@@ -107,31 +110,33 @@ handleYear=(e)=>{
   render(){
   return (
     <div className="player-cont">
-        <Nav/>
+        <div className="nav-player">
+            <Navigation/>
+        </div>
         <div className="form-cont">
-     <form onSubmit={this.handleSubmit} className = "player1-form">
-       <label>
+     <Form inline onSubmit={this.handleSubmit} className = "player1-form">
+       <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
       
-         <input className="player-input"
+         <Input className="player-input"
           type="text"
           value={this.state.value}
           onChange={this.handleChange}
           placeholder="player name"
          />
-       </label>
-       <label>
+       </FormGroup>
+       <FormGroup  className="mb-2 mr-sm-2 mb-sm-0">
        
-         <input className="year-input"
+         <Input className="year-input"
           type="text"
           value={this.state.value}
           onChange={this.handleYear}
           placeholder="season"
          />
-       </label>
-       <input type="submit"  value="Get Stats"/>
-     </form>
+       </FormGroup>
+       <Button color="primary" >Get Stats</Button>
+     </Form>
      </div> 
-     
+    
      <div className = "results">
          {this.state.showChart === true ? (
              <div className="graph-cont">
@@ -146,11 +151,10 @@ handleYear=(e)=>{
          )
   }
 
-  <button><Link to="/compare">Compare </Link></button>
+  <Button color="secondary"><Link to="/compare">Compare </Link></Button>
     
 
      </div> {/*results cont end*/}
-
 
     </div>//cont end
   );

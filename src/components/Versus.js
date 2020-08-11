@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import Nav from './Nav';
 import Chart from './Chart';
 import pattern from 'patternomaly';
+import { Button, Form, FormGroup,Input } from 'reactstrap';
+import Navigation from './Nav';
+import {Link } from 'react-router-dom';
 
 class Versus extends Component {
   constructor(props){
@@ -122,7 +124,6 @@ handleChange = (e) => {
           datasets:[{
           label: "Season Averages",
           data: Object.values(displayData),
-          fontColor: "blue",
           backgroundColor: [
             pattern.draw('diamond', '#552583'), //games
             pattern.draw('disc', '#FDB927'), //fg Attempt
@@ -193,40 +194,42 @@ handleChange = (e) => {
   
   render(){
   return (
-    <div className="players-cont">
-        <Nav/>
-
+    <div className="versus-cont">
+        <div className="nav-vs">
+        <Navigation/>
+        </div>
+        
         <div className="inputs-cont">
-     <form onSubmit={this.handleSubmit} className = "players-inputs">
-       <label>
+     <Form inline onSubmit={this.handleSubmit} className = "players-inputs">
+       <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
          
-         <input className="p1-input"
+         <Input className="p1-input"
           type="text"
           value={this.state.value}
           onChange={this.handleChange}
           placeholder="player name"
          />
-           </label>
-           <label>
+           </FormGroup>
+           <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
           
-        <input 
-          type="text" className="p2-input"
+        <Input className="p2-input"
+          type="text" 
           value={this.state.value}
           onChange={this.handlep2Change}
           placeholder="player name"
          />
-       </label>
-       <label>
-       
-         <input  className="year-input"
+       </FormGroup>
+
+       <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+         <Input  className="year-input"
           type="text"
           value={this.state.value}
           onChange={this.handleYear}
           placeholder="season"
          />
-       </label>
-       <input type="submit" value="Let's Compare"/>
-     </form>
+       </FormGroup>
+       <Button color="primary">Let's Compare</Button>
+     </Form>
      </div> {/*input cont end*/}
 
      <div className = "results-cont">
@@ -253,6 +256,8 @@ handleChange = (e) => {
       
       )
 }   
+
+<Button color="secondary"><Link to="/player"> Single Player </Link></Button>
      </div>{/*results cont end*/}
    </div> /*players cont end*/
   );
