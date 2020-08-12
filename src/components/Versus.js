@@ -5,6 +5,8 @@ import pattern from 'patternomaly';
 import { Button, Form, FormGroup,Input } from 'reactstrap';
 import Navigation from './Nav';
 import {Link } from 'react-router-dom';
+import { noSeason, pre1980, yearFormat, noPlayer,injuredPlayer, dupePlayer, genError } from './Helpers';
+
 
 class Versus extends Component {
   constructor(props){
@@ -29,13 +31,13 @@ handleSubmit = (e) => {
   this.getPTwoId();
  
   if(this.state.year === null){
-      alert("please enter a season")
+      noSeason();
 
   } else if(this.state.year.length < 4){
-    alert(" please enter year 4 digit format")
+    yearFormat();
   }
     else if(this.state.year < "1980"){
-        alert("please enter season after 1980")
+        pre1980();
     } else{
       this.setState({showChart:true})
   }
@@ -48,7 +50,7 @@ handleChange = (e) => {
   if(splitting.length > 0){
     this.setState({player1: splitting})
   } else {
-    alert("Please type players name!")
+    noPlayer();
   }
 }
 
@@ -57,7 +59,7 @@ handleChange = (e) => {
   if(split2.length > 0){
     this.setState({player2: split2})
    } else {
-     alert("Please type players name!")
+     noPlayer();
     }
  }
 
@@ -71,9 +73,9 @@ handleChange = (e) => {
     .then(async res => {
       
       if(res.data.data[0] === undefined){
-        alert("player is injured or did not play this season")
+        injuredPlayer();
       } else if(res.data.data.length > 1){
-        alert("Pleases specify player name")
+        dupePlayer();
       } else{
         await this.getPOneStats(res.data.data[0].id)
         this.setState({p1First: res.data.data[0].first_name})
@@ -81,7 +83,8 @@ handleChange = (e) => {
 
       }
     }).catch(err => {
-      console.log(err)
+      console.log(err);
+      genError();
     })
   }
 
@@ -91,10 +94,10 @@ handleChange = (e) => {
     .then(async res => {
 
       if(res.data.data[0] === undefined){
-        alert("This player is either injured or did not play this season")
+        injuredPlayer();
       }
      else if(res.data.data.length > 1){
-        alert("Pleases specify player name")
+        dupePlayer();
       } else{
         await this.getPTwoStats(res.data.data[0].id)
         this.setState({p2First:res.data.data[0].first_name})
@@ -103,6 +106,7 @@ handleChange = (e) => {
       }
     }).catch(err => {
       console.log(err)
+      genError();
     })
   }
 
@@ -189,6 +193,7 @@ handleChange = (e) => {
 
     }).catch(err => {
       console.log(err)
+      genError();
     })
   }
   
@@ -198,7 +203,9 @@ handleChange = (e) => {
         <div className="nav-vs">
         <Navigation/>
         </div>
-        
+        <div className="vs-head">
+            Compare players' stats!
+        </div>
         <div className="inputs-cont">
      <Form inline onSubmit={this.handleSubmit} className = "players-inputs">
        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
@@ -251,13 +258,13 @@ handleChange = (e) => {
       )
       : (
          <div className = "pre-submit">
-         Enter player names to see season averages
+         Single Player
          </div>
       
       )
 }   
 
-<Button color="secondary"><Link to="/player"> Single Player </Link></Button>
+<Button color="secondary"><Link to="/player"> 1</Link></Button>
      </div>{/*results cont end*/}
    </div> /*players cont end*/
   );
