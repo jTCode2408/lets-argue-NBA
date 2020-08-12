@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
 import axios from "axios";
 import {Link} from 'react-router-dom';
-import Nav from './Nav';
+import Navigation from './Nav';
 import Chart from './Chart';
 import pattern from 'patternomaly';
+import { Button, Form, FormGroup,Input } from 'reactstrap';
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { noSeason, pre1980, yearFormat, noPlayer,injuredPlayer, dupePlayer, genError } from './Helpers';
 
 class Player extends Component {
   constructor(props){
@@ -12,21 +16,23 @@ class Player extends Component {
       player: null,
       year: null,
       playerStats: {},
-      showChart: false
+      showChart: false,
     }
   }
+
+
 
 handleSubmit = (e) => {
   e.preventDefault();
   this.getPlayerId();
   if(this.state.year === null){
-    alert("please enter a season")
+    noSeason()
 
 } else if(this.state.year.length < 4){
-  alert(" please enter year 4 digit format")
+  yearFormat()
 }
   else if(this.state.year < "1980"){
-      alert("please enter season after 1980")
+     pre1980()
   } else{
     this.setState({showChart:true})
 }
@@ -37,7 +43,7 @@ handleChange = (e) => {
   if(splitting.length > 0){
     this.setState({player: splitting})
   } else {
-    alert("Please type players name!")
+    noPlayer()
   }
 }
 handleYear=(e)=>{
@@ -49,15 +55,16 @@ handleYear=(e)=>{
     axios.get(`https://www.balldontlie.io/api/v1/players?search=${this.state.player}`)
     .then(async res => {
       if(res.data.data[0] === undefined){
-        alert("This player is injured or did not play this season")
+        injuredPlayer()
       } else if(res.data.data.length > 1){
-        alert("Pleases specify player name")
+        dupePlayer()
       } else{
         await this.getPlayerStats(res.data.data[0].id)
 
       }
     }).catch(err => {
       console.log(err)
+      genError();
     })
   }
 
@@ -100,38 +107,44 @@ handleYear=(e)=>{
     playerStats: chartData})
 })
     .catch(err => {
-      console.log(err)
+      console.log(err);
+      genError();
     })
   }
   
   render(){
   return (
     <div className="player-cont">
-        <Nav/>
+        <div className="nav-player">
+            <Navigation/>
+        </div>
+        <div className="player-head">
+            Find an individual player's stats!
+        </div>
         <div className="form-cont">
-     <form onSubmit={this.handleSubmit} className = "player1-form">
-       <label>
+     <Form inline onSubmit={this.handleSubmit} className = "player1-form">
+       <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
       
-         <input className="player-input"
+         <Input className="player-input"
           type="text"
           value={this.state.value}
           onChange={this.handleChange}
           placeholder="player name"
          />
-       </label>
-       <label>
+       </FormGroup>
+       <FormGroup  className="mb-2 mr-sm-2 mb-sm-0">
        
-         <input className="year-input"
+         <Input className="year-input"
           type="text"
           value={this.state.value}
           onChange={this.handleYear}
           placeholder="season"
          />
-       </label>
-       <input type="submit"  value="Get Stats"/>
-     </form>
+       </FormGroup>
+       <Button color="primary" >Get Stats</Button>
+     </Form>
      </div> 
-     
+    
      <div className = "results">
          {this.state.showChart === true ? (
              <div className="graph-cont">
@@ -140,17 +153,16 @@ handleYear=(e)=>{
          )
          : (
             <div className = "pre-submit">
-            Enter player name to see season averages
+            Or, compare two players!
             </div>
          
          )
   }
 
-  <button><Link to="/compare">Compare </Link></button>
+  <Button color="secondary"><Link to="/compare">2 </Link></Button>
     
 
      </div> {/*results cont end*/}
-
 
     </div>//cont end
   );
