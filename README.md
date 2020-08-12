@@ -6,6 +6,7 @@ Compare NBA players' stats throughout seasons, argue with friends about it!
 *ReactJS, Styled Components*
 * Graphs from (https://www.npmjs.com/package/react-chartjs-2)
 * Patterns from (https://www.npmjs.com/package/patternomaly)
+* Toasts from (https://fkhadra.github.io/react-toastify/introduction/)
 
 
 ### API: https://ball-dont-lie.herokuapp.com
