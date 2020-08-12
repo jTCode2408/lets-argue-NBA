@@ -15,3 +15,7 @@ Compare NBA players' stats throughout seasons, argue with friends about it!
 * Stats updated approx every 10 mins
 * Rate limit 60 requests per minute
 * Regular season averages only
+
+
+
+#### In progress
