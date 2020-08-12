@@ -4,14 +4,87 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 33vh;
+  height: 33vh;
+  max-height: 33vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: 2rem;
   color: white;
 }
 a{
   text-decoration: none;
+}
+
+
+:root {
+  --drop-height: 80px;
+  --logo-size: 80px;
+  --offset: 50px;
+  --shadow-height: 7px;
+  --duration: .6s;
+}
+
+
+.container {
+height: 150px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.logo {
+  width: var(--logo-size);
+  height: var(--logo-size);
+border-radius:50%;
+  animation-name: bounce;
+  animation-duration: var(--duration);
+  animation-direction: alternate;
+  animation-timing-function: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  animation-iteration-count: infinite;
+  position: absolute;
+  background-image: url('./images/bball.png');
+  background-size: cover;
+
+}
+
+.shadow {
+  width: var(--logo-size);
+  height: var(--shadow-height);
+  background: radial-gradient(
+   closest-side at 50% 50%,rgba(150, 150, 150, 1),rgba(150, 150, 150, 0.05)
+  );
+  position: absolute;
+  top: calc(
+    var(--offset) + var(--drop-height) + var(--logo-size) - 1.5 *
+      var(--shadow-height)
+  );
+
+
+  animation-name: grow;
+  animation-duration: var(--duration);
+  animation-direction: alternate;
+  animation-timing-function: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  animation-iteration-count: infinite;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0) scale(1);
+  }
+  to {
+    transform: translateY(var(--drop-height)) scale(1, 0.7);
+  }
+}
+
+@keyframes grow {
+  from {
+    transform: scale(0.2, 0.5);
+  }
+
+  to {
+    transform: scale(1, 0.8);
+  }
 }

@@ -5,11 +5,12 @@ import {Route, Switch} from 'react-router-dom';
 import Player from './components/Player';
 import Versus from './components/Versus';
 
+
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-    <h1> /nba Stats!</h1>
+      Numbers (Never) Lie
       </header>
 
   
