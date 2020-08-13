@@ -17,19 +17,22 @@ const Home=()=>{
           </div>
 
           <HomeHeader>
-            <h1>Let's Argue!</h1>
+            <h1>It's Arguing Time!</h1>
           </HomeHeader>
 
           <Intro>
            <p>Tired of your friend saying LeBron is better than Michael Jordan?</p> 
            <p> Reminiscing about the GOAT Kobe's insane 05-06 season?</p>
            <p>   Want to prove the amount of free throws James Harden takes a game is outrageous? </p> 
-           <p>   Whatever you want the stats to do, you can find it here!</p> 
-          </Intro>
+           <p>   Whatever you want the stats to do, you can find it here!</p>
 
-        <Link to="/player" aria-label="link to player page">    
+           <Link  className="ball-link" to="/player" aria-label="link to player page">    
         <Ball/>
         </Link>
+
+          </Intro>
+
+    
      
 
         </HomeCont>

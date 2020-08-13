@@ -1,14 +1,20 @@
 import React from 'react';
 import MatrixCard from 'matrix-card';
-import {Route, Switch, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
+import {HeadText, HeadCont, AppHeader} from './styles';
 
 const Header = (props)=>{
 
     return(
-<>
+<HeadCont>
         {props.location.pathname === '/player' || props.location.pathname === '/compare' ? 
         (
-            null
+            <AppHeader>
+<HeadText>
+      Numbers (Never) Lie
+      </HeadText>
+
+            </AppHeader>
         )
             :
 
@@ -16,7 +22,7 @@ const Header = (props)=>{
     <div style={{
 		display: "flex",
 		flexDirection: "column",
-		alignItems: "center",
+        alignItems: "center",
 		}}>
 	<div>
 <MatrixCard 
@@ -33,16 +39,16 @@ const Header = (props)=>{
 
 >
 
- <div className="head-text">
+ <HeadText>
       Numbers (Never) Lie
-      </div>
+      </HeadText>
 
 </MatrixCard>
 </div>
 </div>
             )
     }
-</>
+</HeadCont>
 
     )
 }
