@@ -121,6 +121,7 @@ handleYear=(e)=>{
         <div className="player-head">
             Find an individual player's stats!
         </div>
+        
         <div className="form-cont">
      <Form inline onSubmit={this.handleSubmit} className = "player1-form">
        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">

@@ -5,33 +5,34 @@ import React, {useState} from 'react';
 import {Route, Link, Switch} from 'react-router-dom';
 import Navigation from './Nav';
 import Ball from './Ball';
-import {Button} from 'reactstrap';
+import {HomeCont, HomeHeader, Intro} from './styles';
+
 
 const Home=()=>{
 
     return(
-        <div className = "homeCont">
+        <HomeCont>
           <div className="nav-home">
           <Navigation/>
           </div>
 
-          <div className="header">
+          <HomeHeader>
             <h1>Let's Argue!</h1>
-          </div>
+          </HomeHeader>
 
-          <div className="intro">
+          <Intro>
            <p>Tired of your friend saying LeBron is better than Michael Jordan?</p> 
            <p> Reminiscing about the GOAT Kobe's insane 05-06 season?</p>
            <p>   Want to prove the amount of free throws James Harden takes a game is outrageous? </p> 
            <p>   Whatever you want the stats to do, you can find it here!</p> 
-          </div>
+          </Intro>
 
         <Link to="/player" aria-label="link to player page">    
         <Ball/>
         </Link>
      
 
-        </div>
+        </HomeCont>
     )
 }
 

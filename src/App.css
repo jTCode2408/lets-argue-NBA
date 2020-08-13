@@ -33,6 +33,7 @@ height: 150px;
   display: flex;
   justify-content: center;
   align-content: center;
+  border:2px solid purple;
 }
 
 .logo {
@@ -89,7 +90,3 @@ border-radius:50%;
   }
 }
 
-.head-text{
-
-
-}
