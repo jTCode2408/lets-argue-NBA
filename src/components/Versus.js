@@ -6,6 +6,7 @@ import { Button, Form, FormGroup,Input } from 'reactstrap';
 import Navigation from './Nav';
 import {Link } from 'react-router-dom';
 import { noSeason, pre1980, yearFormat, noPlayer,injuredPlayer, dupePlayer, genError } from './Helpers';
+import{ VsCont, VsHead, VsInputsDiv, BothGraphsCont} from './styles';
 
 
 class Versus extends Component {
@@ -199,14 +200,14 @@ handleChange = (e) => {
   
   render(){
   return (
-    <div className="versus-cont">
+    <VsCont>
         <div className="nav-vs">
         <Navigation/>
         </div>
-        <div className="vs-head">
+        <VsHead>
             Compare players' stats!
-        </div>
-        <div className="inputs-cont">
+        </VsHead>
+        <VsInputsDiv>
      <Form inline onSubmit={this.handleSubmit} className = "players-inputs">
        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
          
@@ -237,12 +238,12 @@ handleChange = (e) => {
        </FormGroup>
        <Button color="primary">Let's Compare</Button>
      </Form>
-     </div> {/*input cont end*/}
+     </VsInputsDiv> {/*input cont end*/}
 
      <div className = "results-cont">
 
      {this.state.showChart === true ? (
-         <div className="graphs-cont">
+         <BothGraphsCont>
 
          <div className = "p1=graph-cont">
      <h2>{this.state.p1First} {this.state.p1Last}</h2>
@@ -254,7 +255,7 @@ handleChange = (e) => {
           <Chart data={this.state.p2Stats}/> 
           </div>
 
-          </div> //BOTH graphs div end
+          </BothGraphsCont> //BOTH graphs div end
       )
       : (
          <div className = "pre-submit">
@@ -266,7 +267,7 @@ handleChange = (e) => {
 
 <Button color="secondary"><Link to="/player"> 1</Link></Button>
      </div>{/*results cont end*/}
-   </div> /*players cont end*/
+   </VsCont> /*players cont end*/
   );
 }
 }
