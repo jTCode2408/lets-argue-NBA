@@ -6,7 +6,7 @@ import { Button, Form, FormGroup,Input } from 'reactstrap';
 import Navigation from './Nav';
 import {Link } from 'react-router-dom';
 import { noSeason, pre1980, yearFormat, noPlayer,injuredPlayer, dupePlayer, genError } from './Helpers';
-import{ VsCont, VsHead, VsInputsDiv, BothGraphsCont} from './styles';
+import{ VsCont, VsHead, VsInputsDiv, BothGraphsCont, P1GraphCont, P2GraphCont, P1Toggled, P2Toggled, ToggledCont} from './styles';
 
 
 class Versus extends Component {
@@ -22,7 +22,8 @@ class Versus extends Component {
       p1First: null,
       p1Last:null,
       p2First:null,
-      p2Last:null
+      p2Last:null,
+      sideBySide: false
     }
   }
 
@@ -69,6 +70,13 @@ handleChange = (e) => {
     this.setState({year : getYear})
     
 }
+
+
+onToggle=(e)=>{
+    this.setState({sideBySide: !this.state.sideBySide});
+    this.setState({showChart:!this.state.showChart})
+}
+
   getPOneId = () => {
     axios.get(`https://www.balldontlie.io/api/v1/players?search=${this.state.player1}`)
     .then(async res => {
@@ -243,19 +251,23 @@ handleChange = (e) => {
      <div className = "results-cont">
 
      {this.state.showChart === true ? (
+         <>
          <BothGraphsCont>
 
-         <div className = "p1=graph-cont">
+         <P1GraphCont>
      <h2>{this.state.p1First} {this.state.p1Last}</h2>
           <Chart data={this.state.p1Stats}/> 
-          </div>
+          </P1GraphCont>
 
-          <div className="p2-graph-cont">
+          <P2GraphCont>
      <h2>{this.state.p2First} {this.state.p2Last}</h2>
           <Chart data={this.state.p2Stats}/> 
-          </div>
+          </P2GraphCont>
 
-          </BothGraphsCont> //BOTH graphs div end
+          </BothGraphsCont> 
+          <button onClick={this.onToggle} className= "toggle-btn">SideBySide View</button>
+          
+</>
       )
       : (
          <div className = "pre-submit">
@@ -265,7 +277,27 @@ handleChange = (e) => {
       )
 }   
 
-<Button color="secondary"><Link to="/player"> 1</Link></Button>
+
+{this.state.sideBySide && 
+<div className = "toggled-results-cont">
+
+     <ToggledCont>
+    <P1Toggled>
+<h2>{this.state.p1First} {this.state.p1Last}</h2>
+     <Chart data={this.state.p1Stats}/> 
+     </P1Toggled>
+
+     <P2Toggled
+     >
+<h2>{this.state.p2First} {this.state.p2Last}</h2>
+     <Chart data={this.state.p2Stats}/> 
+     </P2Toggled>
+         </ToggledCont>
+         </div>
+         
+
+}
+<Button color="secondary"><Link to="/player"> 1 </Link></Button>
      </div>{/*results cont end*/}
    </VsCont> /*players cont end*/
   );

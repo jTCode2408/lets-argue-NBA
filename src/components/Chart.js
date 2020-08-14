@@ -5,9 +5,10 @@ const Chart = ({data})=>{
 
     return <Bar 
     data={data} 
-    height= {25} 
-    width= {60}
-    options={{ responsive: true  }} />
+    height= {30} 
+    width= {90}
+    
+    options={{ responsive: true}} />
     
 }
 

@@ -47,7 +47,6 @@ border:2px solid pink;
 `
 
 export const HomeHeader =styled.div`
-
 font-size:3rem;
 `
 
@@ -60,7 +59,6 @@ align-content: center;
 align-items:center;
 
 `
-
 
 
 export const VsCont = styled.div`
@@ -76,18 +74,53 @@ align-content: center;
 export const VsHead = styled.div`
 border:2px solid blue;
 
-
 `
 
 export const VsInputsDiv=styled.div`
 border:2px solid green;
-margin-top:5%;
+margin-top:2%;
 
 `
 
 export const BothGraphsCont=styled.div`
 border:3px solid black;
-
+width:100%;
 height:auto;
+flex-direction:row;
+justify-content: center;
+align-content: center;
+align-items:center;
+
+
+`
+
+export const P1GraphCont=styled.div`
+border:2px solid green;
+
+`
+
+export const P2GraphCont=styled.div`
+border:2px solid green;
+
+`
+
+export const ToggledCont=styled.div`
+border:3px solid black;
+width:100%;
+height:auto;
+flex-direction:row;
+display:flex;
+
+`
+
+
+export const P1Toggled=styled.div`
+border:2px solid red;
+width:50%;
+
+`
+export const P2Toggled=styled.div`
+border:2px solid red;
+width:50%;
 
 `
