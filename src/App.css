@@ -1,14 +1,17 @@
 .App {
   text-align: center;
   box-sizing: border-box;
-
-
+  max-width:100%;
+ 
 }
-
 
 a{
   text-decoration: none;
   
+}
+
+.toggle-btn{
+  margin-bottom:1%;
 }
 
 .ball-link{
