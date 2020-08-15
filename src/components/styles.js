@@ -9,6 +9,7 @@ export const AppHeader=styled.header`
     font-size: 2rem;
     color: white;
     max-width:100%;
+
   
 `
 
@@ -22,7 +23,7 @@ align-items:center;
 export const HeadText=styled.div`
 font-weight:bold;
 font-size:4rem;
-align-items:center;
+
 margin:5%;
 text-transform:uppercase;
 
