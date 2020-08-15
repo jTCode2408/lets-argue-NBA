@@ -23,7 +23,6 @@ function App() {
       <Route exact path="/"><Home/></Route>
       </Switch>
       <Route exact path="/player"><Player/> </Route>
-                
         <Route exact path="/compare" ><Versus/></Route>
  
     

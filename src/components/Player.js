@@ -5,9 +5,9 @@ import Navigation from './Nav';
 import Chart from './Chart';
 import pattern from 'patternomaly';
 import { Button, Form, FormGroup,Input } from 'reactstrap';
-import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { noSeason, pre1980, yearFormat, noPlayer,injuredPlayer, dupePlayer, genError } from './Helpers';
+import {SinglePlayerGraph, PlayerCont, PlayerHead, LinkTo, PreSubmit, PlayerResults, PlayerInput} from './styles';
 
 class Player extends Component {
   constructor(props){
@@ -17,6 +17,8 @@ class Player extends Component {
       year: null,
       playerStats: {},
       showChart: false,
+      First: null,
+      Last:null,
     }
   }
 
@@ -36,6 +38,7 @@ handleSubmit = (e) => {
   } else{
     this.setState({showChart:true})
 }
+this.setState({value: ""})
 }
 
 handleChange = (e) => {
@@ -60,6 +63,8 @@ handleYear=(e)=>{
         dupePlayer()
       } else{
         await this.getPlayerStats(res.data.data[0].id)
+        this.setState({First: res.data.data[0].first_name})
+        this.setState({Last: res.data.data[0].last_name})
 
       }
     }).catch(err => {
@@ -82,9 +87,11 @@ handleYear=(e)=>{
 
         const chartData= 
             {labels:[  'GAMES','FG ATTEMPTS', '3PT ATTEMPTS', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
+           
                 datasets:[{
                 label: "Season Averages",
                 data: Object.values(displayData),
+                fontColor: 'rgba(85,37,130)',
                 backgroundColor: [
                     pattern.draw('diamond', '#552583'), //games
                     pattern.draw('disc', '#FDB927'), //fg Attempt
@@ -114,19 +121,21 @@ handleYear=(e)=>{
   
   render(){
   return (
-    <div className="player-cont">
-        <div className="nav-player">
-            <Navigation/>
-        </div>
-        <div className="player-head">
-            Find an individual player's stats!
-        </div>
+      <>
+    <div className="nav-player">
+    <Navigation/>
+</div>
+    <PlayerCont>
         
-        <div className="form-cont">
-     <Form inline onSubmit={this.handleSubmit} className = "player1-form">
+        <PlayerHead>
+            Find an individual player's stats!
+        </PlayerHead>
+
+        <PlayerInput>
+     <Form inline onSubmit={this.handleSubmit} className = "player-input">
        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
       
-         <Input className="player-input"
+         <Input className="player-input" bsSize="lg"
           type="text"
           value={this.state.value}
           onChange={this.handleChange}
@@ -135,37 +144,40 @@ handleYear=(e)=>{
        </FormGroup>
        <FormGroup  className="mb-2 mr-sm-2 mb-sm-0">
        
-         <Input className="year-input"
+         <Input className="year-input" bsSize="lg"
           type="text"
           value={this.state.value}
           onChange={this.handleYear}
           placeholder="season"
          />
        </FormGroup>
-       <Button color="primary" >Get Stats</Button>
+       <Button color="primary" size="lg" >Get Stats</Button>
      </Form>
-     </div> 
+     </PlayerInput> 
     
-     <div className = "results">
+     <PlayerResults>
          {this.state.showChart === true ? (
-             <div className="graph-cont">
+             <SinglePlayerGraph>
+            <h2>{this.state.First} {this.state.Last}</h2>
              <Chart data={this.state.playerStats}/> 
-             </div>
+             </SinglePlayerGraph>
          )
          : (
-            <div className = "pre-submit">
+            <PreSubmit>
             Or, compare two players!
-            </div>
+            </PreSubmit>
          
          )
   }
 
-  <Button color="secondary"><Link to="/compare">2 </Link></Button>
-    
+  <Button outline color="info" size="lg"><Link to="/compare"> TWO </Link></Button>
+  {/**TODO: Show option to toggle display stats numbers as list*/}
+  
+     </PlayerResults> {/*results cont end*/}
 
-     </div> {/*results cont end*/}
+    </PlayerCont>
 
-    </div>//cont end
+    </>
   );
 }
 }

@@ -6,7 +6,7 @@ import { Button, Form, FormGroup,Input } from 'reactstrap';
 import Navigation from './Nav';
 import {Link } from 'react-router-dom';
 import { noSeason, pre1980, yearFormat, noPlayer,injuredPlayer, dupePlayer, genError } from './Helpers';
-import{ VsCont, VsHead, VsInputsDiv, BothGraphsCont, P1GraphCont, P2GraphCont, P1Toggled, P2Toggled, ToggledCont} from './styles';
+import{ VsCont, VsHead, VsInputsDiv, BothGraphsCont, P1GraphCont, P2GraphCont, P1Toggled, P2Toggled, ToggledCont, PreSubmit, VSResults} from './styles';
 
 
 class Versus extends Component {
@@ -136,6 +136,7 @@ onToggle=(e)=>{
       {labels:[  'GAMES','FG ATTEMPTS', '3PT ATTEMPTS', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
           datasets:[{
           label: "Season Averages",
+          color:'#55283',
           data: Object.values(displayData),
           backgroundColor: [
             pattern.draw('diamond', '#552583'), //games
@@ -208,10 +209,12 @@ onToggle=(e)=>{
   
   render(){
   return (
+      <>
+    <div className="nav-vs">
+    <Navigation/>
+    </div>
     <VsCont>
-        <div className="nav-vs">
-        <Navigation/>
-        </div>
+      
         <VsHead>
             Compare players' stats!
         </VsHead>
@@ -219,7 +222,7 @@ onToggle=(e)=>{
      <Form inline onSubmit={this.handleSubmit} className = "players-inputs">
        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
          
-         <Input className="p1-input"
+         <Input className="p1-input" bsSize="lg"
           type="text"
           value={this.state.value}
           onChange={this.handleChange}
@@ -228,7 +231,7 @@ onToggle=(e)=>{
            </FormGroup>
            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
           
-        <Input className="p2-input"
+        <Input className="p2-input" bsSize="lg"
           type="text" 
           value={this.state.value}
           onChange={this.handlep2Change}
@@ -237,18 +240,18 @@ onToggle=(e)=>{
        </FormGroup>
 
        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-         <Input  className="year-input"
+         <Input  className="year-input" bsSize="lg"
           type="text"
           value={this.state.value}
           onChange={this.handleYear}
           placeholder="season"
          />
        </FormGroup>
-       <Button color="primary">Let's Compare</Button>
+       <Button color="primary" size="lg">Let's Compare</Button>
      </Form>
      </VsInputsDiv> {/*input cont end*/}
 
-     <div className = "results-cont">
+     <VSResults>
 
      {this.state.showChart === true ? (
          <>
@@ -265,14 +268,14 @@ onToggle=(e)=>{
           </P2GraphCont>
 
           </BothGraphsCont> 
-          <button onClick={this.onToggle} className= "toggle-btn">SideBySide View</button>
-          
+          <Button onClick={this.onToggle} className= "toggle-btn">SideBySide View</Button>
+          {/*TODO: change this toggle into mixed bar chart component, showing both players with dif colors for each player's bars*/}
 </>
       )
       : (
-         <div className = "pre-submit">
-         Single Player
-         </div>
+         <PreSubmit>
+         Get a single player
+         </PreSubmit>
       
       )
 }   
@@ -297,9 +300,13 @@ onToggle=(e)=>{
          
 
 }
-<Button color="secondary"><Link to="/player"> 1 </Link></Button>
-     </div>{/*results cont end*/}
-   </VsCont> /*players cont end*/
+<div className = "link-to">
+<Button outline color="info" size="lg"><Link to="/player"> ONE </Link></Button>
+</div>
+     </VSResults>{/*results cont end*/}
+   </VsCont> {/*players cont end*/}
+
+   </>
   );
 }
 }

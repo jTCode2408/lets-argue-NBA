@@ -11,11 +11,10 @@ import {HomeCont, HomeHeader, Intro} from './styles';
 const Home=()=>{
 
     return(
+      <>
+      <Navigation/>
         <HomeCont>
-          <div className="nav-home">
-          <Navigation/>
-          </div>
-
+         
           <HomeHeader>
             <h1>It's Arguing Time!</h1>
           </HomeHeader>
@@ -32,10 +31,8 @@ const Home=()=>{
 
           </Intro>
 
-    
-     
-
         </HomeCont>
+        </>
     )
 }
 
