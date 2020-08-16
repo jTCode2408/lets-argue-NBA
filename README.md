@@ -1,6 +1,9 @@
 # Lets Argue(NBA)
 Compare NBA players' stats throughout seasons, argue with friends about it!
 
+# Deployed at:
+https://lets-argue-nba.vercel.app/
+
 
 ## Built With:
 *ReactJS, Styled Components*
