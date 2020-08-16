@@ -273,33 +273,36 @@ onToggle=(e)=>{
 </>
       )
       : (
+<>
+        {this.state.sideBySide && 
+            <div className = "toggled-results-cont">
+            
+                 <ToggledCont>
+                <P1Toggled>
+            <h2>{this.state.p1First} {this.state.p1Last}</h2>
+                 <Chart data={this.state.p1Stats}/> 
+                 </P1Toggled>
+            
+                 <P2Toggled
+                 >
+            <h2>{this.state.p2First} {this.state.p2Last}</h2>
+                 <Chart data={this.state.p2Stats}/> 
+                 </P2Toggled>
+                     </ToggledCont>
+                     </div>
+  }
+            
+            
+
+
          <PreSubmit>
          Get a single player
          </PreSubmit>
-      
+         </>      
       )
 }   
 
 
-{this.state.sideBySide && 
-<div className = "toggled-results-cont">
-
-     <ToggledCont>
-    <P1Toggled>
-<h2>{this.state.p1First} {this.state.p1Last}</h2>
-     <Chart data={this.state.p1Stats}/> 
-     </P1Toggled>
-
-     <P2Toggled
-     >
-<h2>{this.state.p2First} {this.state.p2Last}</h2>
-     <Chart data={this.state.p2Stats}/> 
-     </P2Toggled>
-         </ToggledCont>
-         </div>
-         
-
-}
 <div className = "link-to">
 <Button outline color="info" size="lg"><Link to="/player"> ONE </Link></Button>
 </div>
