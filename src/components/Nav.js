@@ -14,16 +14,16 @@ class Navigation extends Component{
     return (
 <NavCont>
   
-    <Nav pills>
-        <NavItem className="mx-5" style= {{width:200}}>
+    <Nav >
+        <NavItem className="nav">
         <NavLink className="text-info" href="/">Home</NavLink>
         </NavItem>
 
-        <NavItem className=" mx-5" style= {{width:200}}>
+        <NavItem className=" nav" >
         <NavLink className="text-info" href="/player">Single Player</NavLink>
         </NavItem>
 
-        <NavItem className=" mx-5" style= {{width:200}}>
+        <NavItem className=" nav" >
         <NavLink className="text-info" href="/compare">Compare Players</NavLink>
         </NavItem>
     </Nav>

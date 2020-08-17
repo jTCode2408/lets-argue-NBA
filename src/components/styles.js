@@ -19,6 +19,8 @@ display:flex;
 justfiy-content:center;
 align-content:center;
 align-items:center;
+
+
 `
 
 export const HeadText=styled.div`
@@ -26,6 +28,12 @@ font-weight:bold;
 font-size:4rem;
 margin:5%;
 text-transform:uppercase;
+
+@media ${breakpoints.smallHeaderBreak}{
+    font-size:3rem;
+    margin: 0 auto;
+
+}
 
 `
 
@@ -36,8 +44,12 @@ align-content: center;
 align-items:center;
 background-color: rgb(25, 24, 26);
 font-family: 'Markazi Text', serif;
-font-size:1.5rem
+font-size:1.5rem;
 
+
+@media ${breakpoints.smallNavBreak}{
+    font-size:1.2rem
+}
 `
 
 export const HomeCont=styled.div`
@@ -53,7 +65,9 @@ text-transform:uppercase;
 color:#000;
 margin:2% 0;
 font-family: 'Special Elite', cursive;
-
+@media ${breakpoints.smallHomeText}{
+    margin:2%;
+}
 
 `
 
@@ -68,6 +82,11 @@ font-weight:bold;
 margin-bottom:6%;
 font-family: 'Markazi Text', serif;
 font-size:1.5rem;
+
+@media ${breakpoints.smallHomeText}{
+    margin:4%;
+}
+
 
 `
 export const PlayerCont=styled.div`
@@ -127,6 +146,10 @@ display:flex;
 justify-content: center;
 align-content: center;
 
+@media ${breakpoints.largeVsInputs}{
+    flex-direction:column;
+}
+
 `
 
 export const VSResults=styled.div`
@@ -164,6 +187,10 @@ height:auto;
 flex-direction:row;
 display:flex;
 margin-bottom: 1%;
+
+@media ${breakpoints.medBreak}{
+    display:none;
+}
 
 `
 

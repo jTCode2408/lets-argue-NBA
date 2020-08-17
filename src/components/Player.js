@@ -6,8 +6,8 @@ import Chart from './Chart';
 import pattern from 'patternomaly';
 import { Button, Form, FormGroup,Input } from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
-import { noSeason, pre1980, yearFormat, noPlayer,injuredPlayer, dupePlayer, genError } from './Helpers';
-import {SinglePlayerGraph, PlayerCont, PlayerHead, LinkTo, PreSubmit, PlayerResults, PlayerInput} from './styles';
+import { noSeason, pre1980, yearFormat, noPlayer,injuredPlayer, dupePlayer, genError} from './Helpers';
+import {SinglePlayerGraph, PlayerCont, PlayerHead, PreSubmit, PlayerResults, PlayerInput} from './styles';
 
 class Player extends Component {
   constructor(props){
