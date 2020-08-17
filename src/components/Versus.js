@@ -268,7 +268,9 @@ onToggle=(e)=>{
           </P2GraphCont>
 
           </BothGraphsCont> 
-          <Button onClick={this.onToggle} className= "toggle-btn">SideBySide View</Button>
+          <div className="toggle-btn">
+          <Button onClick={this.onToggle}>SideBySide View</Button>
+          </div>
           {/*TODO: change this toggle into mixed bar chart component, showing both players with dif colors for each player's bars*/}
 </>
       )

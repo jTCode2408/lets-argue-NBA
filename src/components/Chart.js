@@ -10,7 +10,6 @@ const Chart = ({data})=>{
   }
 
   defaults.global.defaultFontColor = 'rgba(42,40,45)';
-//  defaults.global.defaultFontFamily = false;
   defaults.global.defaultFontSize = 14;
   defaults.global.defaultFontStyle = 'bold';
 

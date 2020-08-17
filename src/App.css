@@ -14,6 +14,12 @@ a{
   margin-bottom:1%;
 }
 
+@media(max-width:780px){
+  .toggle-btn{
+    display: none;
+  }
+}
+
 .ball-link{
   height: 150px;
   position: relative;
@@ -24,8 +30,10 @@ a{
 }
 
 .text-info{
-  font-weight: bolder;
+font-weight: bolder;
+width: 100%;
 }
+
 
 :root {
   --drop-height: 80px;
