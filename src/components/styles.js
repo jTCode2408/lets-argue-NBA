@@ -83,10 +83,18 @@ margin-bottom:6%;
 font-family: 'Markazi Text', serif;
 font-size:1.5rem;
 
+
 @media ${breakpoints.smallHomeText}{
     margin:4%;
 }
 
+`
+
+export const StyledSpans =styled.span`
+font-size:0.8rem;
+font-family:arial;
+font-weight:normal;
+margin-left: 80%
 
 `
 export const PlayerCont=styled.div`

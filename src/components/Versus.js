@@ -23,7 +23,10 @@ class Versus extends Component {
       p1Last:null,
       p2First:null,
       p2Last:null,
-      sideBySide: false
+      sideBySide: false,
+      showList:false,
+      p1List:{},
+      p2list:{}
     }
   }
 
@@ -71,10 +74,15 @@ handleChange = (e) => {
     
 }
 
-
 onToggle=(e)=>{
-    this.setState({sideBySide: !this.state.sideBySide});
-    this.setState({showChart:!this.state.showChart})
+    this.setState({sideBySide: true});
+    this.setState({showChart:false})
+}
+
+toggleList=(e)=>{
+    this.setState({showChart:false});
+    this.setState({sideBySide: false});;
+    this.setState({showList:true})
 }
 
   getPOneId = () => {
@@ -131,7 +139,7 @@ onToggle=(e)=>{
          
             return object
           }, {})
-
+          this.setState({p1List: Object.values(displayData)})
       const chartData= 
       {labels:[  'GAMES','FG ATTEMPTS', '3PT ATTEMPTS', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
           datasets:[{
@@ -167,14 +175,17 @@ onToggle=(e)=>{
     const year =this.state.year
     axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${year}&player_ids[]=${id2}`)
     .then(async res => {
+     //   console.log('CHART DATA', res.data.data[0])
+     
         const displayData = Object.keys(res.data.data[0]).reduce((object, key) => {
             if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf" && key !=="fgm"  && key !=="fg3m" && key !=="ftm" ) {
               object[key] = res.data.data[0][key]
+              
             }
            
             return object
           }, {})
-
+          this.setState({p2List: Object.values(displayData)})
       const chartData= 
       {labels:[  'GAMES','FG ATTEMPTS', '3PT ATTEMPTS', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
           datasets:[{
@@ -198,7 +209,7 @@ onToggle=(e)=>{
                 ]
           }]
       }
-   
+    
         this.setState({ p2Stats: chartData})
 
     }).catch(err => {
@@ -271,6 +282,8 @@ onToggle=(e)=>{
           <div className="toggle-btn">
           <Button onClick={this.onToggle}>SideBySide View</Button>
           </div>
+
+          <Button onClick={this.toggleList}>List View</Button>
           {/*TODO: change this toggle into mixed bar chart component, showing both players with dif colors for each player's bars*/}
 </>
       )
@@ -283,6 +296,7 @@ onToggle=(e)=>{
                 <P1Toggled>
             <h2>{this.state.p1First} {this.state.p1Last}</h2>
                  <Chart data={this.state.p1Stats}/> 
+               
                  </P1Toggled>
             
                  <P2Toggled
@@ -291,9 +305,54 @@ onToggle=(e)=>{
                  <Chart data={this.state.p2Stats}/> 
                  </P2Toggled>
                      </ToggledCont>
+
+            <div className="toggle-btn">
+                 <Button onClick={this.toggleList}>List View</Button>
+                </div>
                      </div>
   }
             
+            {this.state.showList &&
+            <div>
+                <div className="p1-list">
+                <h2>{this.state.p1First} {this.state.p1Last}</h2>
+                <li> GAMES PLAYED: {this.state.p1List[0]}</li>
+              <li> FG ATTEMPTS: {this.state.p1List[1]}</li>
+                  <li> 3PT ATTEMPTS: {this.state.p1List[2]}</li>
+                  <li> FREE THROW ATTEMPTS: {this.state.p1List[3]}</li>
+                  <li>REBOUNDS: {this.state.p1List[4]}</li>
+                  <li>ASSISTS: {this.state.p1List[5]}</li>
+                  <li>STEALS: {this.state.p1List[6]}</li>
+                  <li>BLOCKS: {this.state.p1List[7]}</li>
+                  <li>TURNOVERS: {this.state.p1List[8]}</li>
+                  <li>POINTS: {this.state.p1List[9]}</li>
+                  <li>FIELD GOAL % : {this.state.p1List[10]}</li>
+                  <li>3 PT % : {this.state.p1List[11]}</li>
+                  <li>FREE THROW % : {this.state.p1List[12]}</li>
+
+                </div>
+
+                <div className="p2-list">
+                <h2>{this.state.p2First} {this.state.p2Last}</h2>
+                <li> GAMES PLAYED: {this.state.p2List[0]}</li>
+              <li> FG ATTEMPTS: {this.state.p2List[1]}</li>
+                  <li> 3PT ATTEMPTS: {this.state.p2List[2]}</li>
+                  <li> FREE THROW ATTEMPTS: {this.state.p2List[3]}</li>
+                  <li>REBOUNDS: {this.state.p2List[4]}</li>
+                  <li>ASSISTS: {this.state.p2List[5]}</li>
+                  <li>STEALS: {this.state.p2List[6]}</li>
+                  <li>BLOCKS: {this.state.p2List[7]}</li>
+                  <li>TURNOVERS: {this.state.p2List[8]}</li>
+                  <li>POINTS: {this.state.p2List[9]}</li>
+                  <li>FIELD GOAL % : {this.state.p2List[10]}</li>
+                  <li>3 PT % : {this.state.p2List[11]}</li>
+                  <li>FREE THROW % : {this.state.p2List[12]}</li>
+
+                </div>
+            </div>
+            
+            
+            }
             
 
 

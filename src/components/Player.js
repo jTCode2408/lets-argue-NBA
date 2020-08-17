@@ -19,9 +19,10 @@ class Player extends Component {
       showChart: false,
       First: null,
       Last:null,
+      showList:false,
+      listData:{}
     }
   }
-
 
 
 handleSubmit = (e) => {
@@ -49,11 +50,19 @@ handleChange = (e) => {
     noPlayer()
   }
 }
+
 handleYear=(e)=>{
     const getYear = e.target.value
    this.setState({year : getYear})
 
 }
+
+toggleList=(e)=>{
+  this.setState({showList:true})
+  this.setState({showChart:false})
+}
+
+
   getPlayerId = () => {
     axios.get(`https://www.balldontlie.io/api/v1/players?search=${this.state.player}`)
     .then(async res => {
@@ -77,6 +86,7 @@ handleYear=(e)=>{
     const year =this.state.year
     axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${year}&player_ids[]=${id}`)
     .then(async res => {
+      console.log('DATA', res.data.data[0])
         const displayData = Object.keys(res.data.data[0]).reduce((object, key) => {
             if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf" && key !=="fgm"  && key !=="fg3m" && key !=="ftm" ) {
               object[key] = res.data.data[0][key]
@@ -84,6 +94,9 @@ handleYear=(e)=>{
 
             return object
           }, {})
+
+          this.setState({listData: Object.values(displayData)})
+          
 
         const chartData= 
             {labels:[  'GAMES','FG ATTEMPTS', '3PT ATTEMPTS', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
@@ -112,6 +125,7 @@ handleYear=(e)=>{
         
       this.setState({ 
     playerStats: chartData})
+    console.log(this.state.playerStats)
 })
     .catch(err => {
       console.log(err);
@@ -156,19 +170,54 @@ handleYear=(e)=>{
      </PlayerInput> 
     
      <PlayerResults>
+
          {this.state.showChart === true ? (
+            <>
              <SinglePlayerGraph>
             <h2>{this.state.First} {this.state.Last}</h2>
              <Chart data={this.state.playerStats}/> 
              </SinglePlayerGraph>
+
+   
+          <Button onClick={this.toggleList}>List Version</Button>
+          </>
+
          )
-         : (
+
+         : 
+            (
+
+              <>
+              { this.state.showList && 
+                <div>
+                <li> GAMES PLAYED: {this.state.listData[0]}</li>
+              <li> FG ATTEMPTS: {this.state.listData[1]}</li>
+                  <li> 3PT ATTEMPTS: {this.state.listData[2]}</li>
+                  <li> FREE THROW ATTEMPTS: {this.state.listData[3]}</li>
+                  <li>REBOUNDS: {this.state.listData[4]}</li>
+                  <li>ASSISTS: {this.state.listData[5]}</li>
+                  <li>STEALS: {this.state.listData[6]}</li>
+                  <li>BLOCKS: {this.state.listData[7]}</li>
+                  <li>TURNOVERS: {this.state.listData[8]}</li>
+                  <li>POINTS: {this.state.listData[9]}</li>
+                  <li>FIELD GOAL % : {this.state.listData[10]}</li>
+                  <li>3 PT % : {this.state.listData[11]}</li>
+                  <li>FREE THROW % : {this.state.listData[12]}</li>
+                  
+                </div>
+              }
+            
             <PreSubmit>
             Or, compare two players!
             </PreSubmit>
-         
+</>
          )
+
+         
   }
+
+
+
 
   <Button outline color="info" size="lg"><Link to="/compare"> TWO </Link></Button>
   {/**TODO: Show option to toggle display stats numbers as list*/}
