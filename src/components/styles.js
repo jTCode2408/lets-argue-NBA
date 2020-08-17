@@ -212,3 +212,13 @@ border:3px solid black;
 width:50%;
 
 `
+
+export const SingleListCont=styled.div``
+
+export const SingleList=styled.div``
+
+export const VsListCont=styled.div``
+
+export const P1List=styled.div``
+
+export const P2List=styled.div``

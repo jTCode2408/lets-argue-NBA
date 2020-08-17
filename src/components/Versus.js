@@ -6,7 +6,7 @@ import { Button, Form, FormGroup,Input } from 'reactstrap';
 import Navigation from './Nav';
 import {Link } from 'react-router-dom';
 import { noSeason, pre1980, yearFormat, noPlayer,injuredPlayer, dupePlayer, genError } from './Helpers';
-import{ VsCont, VsHead, VsInputsDiv, BothGraphsCont, P1GraphCont, P2GraphCont, P1Toggled, P2Toggled, ToggledCont, PreSubmit, VSResults} from './styles';
+import{ VsCont, VsHead, VsInputsDiv, BothGraphsCont, P1GraphCont, P2GraphCont, P1Toggled, P2Toggled, ToggledCont, PreSubmit, VSResults, VsListCont, P1List, P2List} from './styles';
 
 
 class Versus extends Component {
@@ -313,13 +313,13 @@ toggleList=(e)=>{
   }
             
             {this.state.showList &&
-            <div>
-                <div className="p1-list">
+            <VsListCont>
+                <P1List>
                 <h2>{this.state.p1First} {this.state.p1Last}</h2>
-                <li> GAMES PLAYED: {this.state.p1List[0]}</li>
-              <li> FG ATTEMPTS: {this.state.p1List[1]}</li>
-                  <li> 3PT ATTEMPTS: {this.state.p1List[2]}</li>
-                  <li> FREE THROW ATTEMPTS: {this.state.p1List[3]}</li>
+                <li>GAMES PLAYED: {this.state.p1List[0]}</li>
+              <li>FG ATTEMPTS: {this.state.p1List[1]}</li>
+                  <li>3PT ATTEMPTS: {this.state.p1List[2]}</li>
+                  <li>FREE THROW ATTEMPTS: {this.state.p1List[3]}</li>
                   <li>REBOUNDS: {this.state.p1List[4]}</li>
                   <li>ASSISTS: {this.state.p1List[5]}</li>
                   <li>STEALS: {this.state.p1List[6]}</li>
@@ -330,14 +330,14 @@ toggleList=(e)=>{
                   <li>3 PT % : {this.state.p1List[11]}</li>
                   <li>FREE THROW % : {this.state.p1List[12]}</li>
 
-                </div>
+                </P1List>
 
-                <div className="p2-list">
+                <P2List>
                 <h2>{this.state.p2First} {this.state.p2Last}</h2>
-                <li> GAMES PLAYED: {this.state.p2List[0]}</li>
-              <li> FG ATTEMPTS: {this.state.p2List[1]}</li>
-                  <li> 3PT ATTEMPTS: {this.state.p2List[2]}</li>
-                  <li> FREE THROW ATTEMPTS: {this.state.p2List[3]}</li>
+                <li>GAMES PLAYED: {this.state.p2List[0]}</li>
+              <li>FG ATTEMPTS: {this.state.p2List[1]}</li>
+                  <li>3PT ATTEMPTS: {this.state.p2List[2]}</li>
+                  <li>FREE THROW ATTEMPTS: {this.state.p2List[3]}</li>
                   <li>REBOUNDS: {this.state.p2List[4]}</li>
                   <li>ASSISTS: {this.state.p2List[5]}</li>
                   <li>STEALS: {this.state.p2List[6]}</li>
@@ -348,8 +348,8 @@ toggleList=(e)=>{
                   <li>3 PT % : {this.state.p2List[11]}</li>
                   <li>FREE THROW % : {this.state.p2List[12]}</li>
 
-                </div>
-            </div>
+                </P2List>
+            </VsListCont>
             
             
             }

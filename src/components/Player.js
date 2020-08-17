@@ -7,7 +7,7 @@ import pattern from 'patternomaly';
 import { Button, Form, FormGroup,Input } from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import { noSeason, pre1980, yearFormat, noPlayer,injuredPlayer, dupePlayer, genError} from './Helpers';
-import {SinglePlayerGraph, PlayerCont, PlayerHead, PreSubmit, PlayerResults, PlayerInput} from './styles';
+import {SinglePlayerGraph, PlayerCont, PlayerHead, PreSubmit, PlayerResults, PlayerInput, SingleList, SingleListCont} from './styles';
 
 class Player extends Component {
   constructor(props){
@@ -189,22 +189,24 @@ toggleList=(e)=>{
 
               <>
               { this.state.showList && 
-                <div>
-                <li> GAMES PLAYED: {this.state.listData[0]}</li>
-              <li> FG ATTEMPTS: {this.state.listData[1]}</li>
-                  <li> 3PT ATTEMPTS: {this.state.listData[2]}</li>
-                  <li> FREE THROW ATTEMPTS: {this.state.listData[3]}</li>
-                  <li>REBOUNDS: {this.state.listData[4]}</li>
-                  <li>ASSISTS: {this.state.listData[5]}</li>
-                  <li>STEALS: {this.state.listData[6]}</li>
-                  <li>BLOCKS: {this.state.listData[7]}</li>
-                  <li>TURNOVERS: {this.state.listData[8]}</li>
-                  <li>POINTS: {this.state.listData[9]}</li>
-                  <li>FIELD GOAL % : {this.state.listData[10]}</li>
-                  <li>3 PT % : {this.state.listData[11]}</li>
-                  <li>FREE THROW % : {this.state.listData[12]}</li>
-                  
-                </div>
+              <SingleListCont>
+                <SingleList>
+                <h2>{this.state.First} {this.state.Last}</h2>
+              <li>GAMES PLAYED: {this.state.listData[0]}</li>
+              <li>FG ATTEMPTS: {this.state.listData[1]}</li>
+              <li>3PT ATTEMPTS: {this.state.listData[2]}</li>
+              <li>FREE THROW ATTEMPTS: {this.state.listData[3]}</li>
+              <li>REBOUNDS: {this.state.listData[4]}</li>
+              <li>ASSISTS: {this.state.listData[5]}</li>
+              <li>STEALS: {this.state.listData[6]}</li>
+              <li>BLOCKS: {this.state.listData[7]}</li>
+              <li>TURNOVERS: {this.state.listData[8]}</li>
+              <li>POINTS: {this.state.listData[9]}</li>
+              <li>FIELD GOAL % : {this.state.listData[10]}</li>
+              <li>3 PT % : {this.state.listData[11]}</li>
+              <li>FREE THROW % : {this.state.listData[12]}</li>
+              </SingleList>
+              </SingleListCont>
               }
             
             <PreSubmit>
@@ -215,8 +217,6 @@ toggleList=(e)=>{
 
          
   }
-
-
 
 
   <Button outline color="info" size="lg"><Link to="/compare"> TWO </Link></Button>
