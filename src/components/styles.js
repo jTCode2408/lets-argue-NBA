@@ -213,12 +213,61 @@ width:50%;
 
 `
 
-export const SingleListCont=styled.div``
 
-export const SingleList=styled.div``
+export const ListHead=styled.div`
+color: black;
+font-size:1.8rem;
+font-family: 'Special Elite', cursive;
 
-export const VsListCont=styled.div``
+`
 
-export const P1List=styled.div``
+export const SingleList=styled.div`
+font-family: 'Markazi Text', serif;
+color:#A9A9A9;
+font-size:1.5rem;
+font-weight:bold;
+`
 
-export const P2List=styled.div``
+export const VsListCont=styled.div`
+display:flex;
+flex-direction:row;
+margin-bottom:1%;
+
+@media ${breakpoints.medVsListBreak}{
+    flex-direction:column;
+    justify-content:center;
+    align-content:center;
+}
+`
+
+export const P1List=styled.div`
+border:3px solid black;
+width:50%;
+font-family: 'Markazi Text', serif;
+color:#A9A9A9;
+font-size:1.5rem;
+font-weight:bold;
+
+@media ${breakpoints.medVsListBreak}{
+   width:100%
+}
+`
+
+export const P2List=styled.div`
+border:3px solid black;
+width:50%;
+font-family: 'Markazi Text', serif;
+color:#A9A9A9;
+font-size:1.5rem;
+font-weight:bold;
+
+@media ${breakpoints.medVsListBreak}{
+    width:100%
+    
+ }
+`
+
+export const ListButtonDiv=styled.div`
+
+margin-bottom:1%;
+`

@@ -6,7 +6,7 @@ import { Button, Form, FormGroup,Input } from 'reactstrap';
 import Navigation from './Nav';
 import {Link } from 'react-router-dom';
 import { noSeason, pre1980, yearFormat, noPlayer,injuredPlayer, dupePlayer, genError } from './Helpers';
-import{ VsCont, VsHead, VsInputsDiv, BothGraphsCont, P1GraphCont, P2GraphCont, P1Toggled, P2Toggled, ToggledCont, PreSubmit, VSResults, VsListCont, P1List, P2List} from './styles';
+import{ VsCont, VsHead, VsInputsDiv, BothGraphsCont, P1GraphCont, P2GraphCont, P1Toggled, P2Toggled, ToggledCont, PreSubmit, VSResults, VsListCont, P1List, P2List, ListHead, ListButtonDiv} from './styles';
 
 
 class Versus extends Component {
@@ -76,12 +76,13 @@ handleChange = (e) => {
 
 onToggle=(e)=>{
     this.setState({sideBySide: true});
-    this.setState({showChart:false})
+    this.setState({showChart:false});
+    this.setState({showList:false})
 }
 
 toggleList=(e)=>{
     this.setState({showChart:false});
-    this.setState({sideBySide: false});;
+    this.setState({sideBySide: false});
     this.setState({showList:true})
 }
 
@@ -280,11 +281,11 @@ toggleList=(e)=>{
 
           </BothGraphsCont> 
           <div className="toggle-btn">
-          <Button onClick={this.onToggle}>SideBySide View</Button>
+          <Button outline color="primary" size="lg" onClick={this.onToggle}>SideBySide</Button>
           </div>
-
-          <Button onClick={this.toggleList}>List View</Button>
-          {/*TODO: change this toggle into mixed bar chart component, showing both players with dif colors for each player's bars*/}
+            <ListButtonDiv>
+          <Button outline color="primary" size="lg"onClick={this.toggleList}>List View</Button>
+          </ListButtonDiv>
 </>
       )
       : (
@@ -306,20 +307,24 @@ toggleList=(e)=>{
                  </P2Toggled>
                      </ToggledCont>
 
-            <div className="toggle-btn">
-                 <Button onClick={this.toggleList}>List View</Button>
-                </div>
+           <ListButtonDiv>
+                 <Button outline color="primary" size="lg" onClick={this.toggleList}>List View</Button>
+                 </ListButtonDiv>
                      </div>
   }
             
             {this.state.showList &&
+            <>
             <VsListCont>
                 <P1List>
+                    <ListHead>
                 <h2>{this.state.p1First} {this.state.p1Last}</h2>
+            <h3>{this.state.year}</h3>
+            </ListHead>
                 <li>GAMES PLAYED: {this.state.p1List[0]}</li>
               <li>FG ATTEMPTS: {this.state.p1List[1]}</li>
                   <li>3PT ATTEMPTS: {this.state.p1List[2]}</li>
-                  <li>FREE THROW ATTEMPTS: {this.state.p1List[3]}</li>
+                  <li>FT ATTEMPTS: {this.state.p1List[3]}</li>
                   <li>REBOUNDS: {this.state.p1List[4]}</li>
                   <li>ASSISTS: {this.state.p1List[5]}</li>
                   <li>STEALS: {this.state.p1List[6]}</li>
@@ -328,16 +333,19 @@ toggleList=(e)=>{
                   <li>POINTS: {this.state.p1List[9]}</li>
                   <li>FIELD GOAL % : {this.state.p1List[10]}</li>
                   <li>3 PT % : {this.state.p1List[11]}</li>
-                  <li>FREE THROW % : {this.state.p1List[12]}</li>
+                  <li>FT % : {this.state.p1List[12]}</li>
 
                 </P1List>
 
                 <P2List>
+                    <ListHead>
                 <h2>{this.state.p2First} {this.state.p2Last}</h2>
+                <h3>{this.state.year}</h3>
+                </ListHead>
                 <li>GAMES PLAYED: {this.state.p2List[0]}</li>
               <li>FG ATTEMPTS: {this.state.p2List[1]}</li>
                   <li>3PT ATTEMPTS: {this.state.p2List[2]}</li>
-                  <li>FREE THROW ATTEMPTS: {this.state.p2List[3]}</li>
+                  <li>FT ATTEMPTS: {this.state.p2List[3]}</li>
                   <li>REBOUNDS: {this.state.p2List[4]}</li>
                   <li>ASSISTS: {this.state.p2List[5]}</li>
                   <li>STEALS: {this.state.p2List[6]}</li>
@@ -346,16 +354,16 @@ toggleList=(e)=>{
                   <li>POINTS: {this.state.p2List[9]}</li>
                   <li>FIELD GOAL % : {this.state.p2List[10]}</li>
                   <li>3 PT % : {this.state.p2List[11]}</li>
-                  <li>FREE THROW % : {this.state.p2List[12]}</li>
+                  <li>FT % : {this.state.p2List[12]}</li>
 
                 </P2List>
             </VsListCont>
-            
-            
+                <div className="toggle-btn">
+            <Button outline color="primary" size="lg" onClick={this.onToggle}>SideBySide </Button>
+            </div>
+             </>
             }
             
-
-
          <PreSubmit>
          Get a single player
          </PreSubmit>
@@ -365,7 +373,7 @@ toggleList=(e)=>{
 
 
 <div className = "link-to">
-<Button outline color="info" size="lg"><Link to="/player"> ONE </Link></Button>
+<Button outline color="info" size="lg"><Link to="/player"> One Player </Link></Button>
 </div>
      </VSResults>{/*results cont end*/}
    </VsCont> {/*players cont end*/}
