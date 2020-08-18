@@ -5,7 +5,7 @@ import React, {useState} from 'react';
 import {Route, Link, Switch} from 'react-router-dom';
 import Navigation from './Nav';
 import Ball from './Ball';
-import {HomeCont, HomeHeader, Intro} from './styles';
+import {HomeCont, HomeHeader, Intro, StyledSpans} from './styles';
 
 
 const Home=()=>{
@@ -28,7 +28,8 @@ const Home=()=>{
            <Link  className="ball-link" to="/player" aria-label="link to player page">    
         <Ball/>
         </Link>
-
+        <StyledSpans>*Stats updated ~every 10mins*</StyledSpans>
+        <StyledSpans>  *Regular season averages only*</StyledSpans>
           </Intro>
 
         </HomeCont>

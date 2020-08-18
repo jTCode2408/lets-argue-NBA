@@ -83,10 +83,18 @@ margin-bottom:6%;
 font-family: 'Markazi Text', serif;
 font-size:1.5rem;
 
+
 @media ${breakpoints.smallHomeText}{
     margin:4%;
 }
 
+`
+
+export const StyledSpans =styled.span`
+font-size:0.8rem;
+font-family:arial;
+font-weight:normal;
+margin-left: 80%
 
 `
 export const PlayerCont=styled.div`
@@ -125,7 +133,6 @@ font-family: 'Special Elite', cursive;
 
 
 export const VsCont = styled.div`
-
 display:flex;
 flex-direction:column;
 justify-content: center;
@@ -141,7 +148,6 @@ font-size:2rem;
 `
 
 export const VsInputsDiv=styled.div`
-
 display:flex;
 justify-content: center;
 align-content: center;
@@ -203,4 +209,66 @@ export const P2Toggled=styled.div`
 border:3px solid black;
 width:50%;
 
+`
+
+export const ListHead=styled.div`
+color: black;
+font-size:1.8rem;
+font-family: 'Special Elite', cursive;
+text-align:center;
+margin-top:1%;
+`
+
+export const SingleList=styled.div`
+font-family: 'Markazi Text', serif;
+color:#A9A9A9;
+font-size:1.7rem;
+font-weight:bold;
+border:3px solid black;
+
+`
+
+export const VsListCont=styled.div`
+display:flex;
+flex-direction:row;
+margin-bottom:1%;
+
+@media ${breakpoints.medVsListBreak}{
+    flex-direction:column;
+    justify-content:center;
+    align-content:center;
+}
+`
+
+export const P1List=styled.div`
+border:3px solid black;
+width:50%;
+font-family: 'Markazi Text', serif;
+color:#A9A9A9;
+font-size:1.7rem;
+font-weight:bold;
+
+
+@media ${breakpoints.medVsListBreak}{
+   width:100%
+}
+`
+
+export const P2List=styled.div`
+border:3px solid black;
+width:50%;
+font-family: 'Markazi Text', serif;
+color:#A9A9A9;
+font-size:1.7rem;
+font-weight:bold;
+
+@media ${breakpoints.medVsListBreak}{
+    width:100%
+    
+ }
+`
+
+export const ListButtonDiv=styled.div`
+
+margin-bottom:1%;
 `

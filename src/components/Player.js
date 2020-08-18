@@ -7,7 +7,9 @@ import pattern from 'patternomaly';
 import { Button, Form, FormGroup,Input } from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import { noSeason, pre1980, yearFormat, noPlayer,injuredPlayer, dupePlayer, genError} from './Helpers';
-import {SinglePlayerGraph, PlayerCont, PlayerHead, PreSubmit, PlayerResults, PlayerInput} from './styles';
+import {SinglePlayerGraph, PlayerCont, PlayerHead, PreSubmit, PlayerResults, PlayerInput, SingleList, ListHead} from './styles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBasketballBall} from '@fortawesome/free-solid-svg-icons';
 
 class Player extends Component {
   constructor(props){
@@ -19,9 +21,10 @@ class Player extends Component {
       showChart: false,
       First: null,
       Last:null,
+      showList:false,
+      listData:{}
     }
   }
-
 
 
 handleSubmit = (e) => {
@@ -49,11 +52,19 @@ handleChange = (e) => {
     noPlayer()
   }
 }
+
 handleYear=(e)=>{
     const getYear = e.target.value
    this.setState({year : getYear})
 
 }
+
+toggleList=(e)=>{
+  this.setState({showList:true})
+  this.setState({showChart:false})
+}
+
+
   getPlayerId = () => {
     axios.get(`https://www.balldontlie.io/api/v1/players?search=${this.state.player}`)
     .then(async res => {
@@ -77,6 +88,7 @@ handleYear=(e)=>{
     const year =this.state.year
     axios.get(`https://www.balldontlie.io/api/v1/season_averages?season=${year}&player_ids[]=${id}`)
     .then(async res => {
+      console.log('DATA', res.data.data[0])
         const displayData = Object.keys(res.data.data[0]).reduce((object, key) => {
             if (key !== "player_id" && key !== "season" && key !== "min" && key !== "oreb" && key !== "dreb" && key !== "pf" && key !=="fgm"  && key !=="fg3m" && key !=="ftm" ) {
               object[key] = res.data.data[0][key]
@@ -84,6 +96,9 @@ handleYear=(e)=>{
 
             return object
           }, {})
+
+          this.setState({listData: Object.values(displayData)})
+          
 
         const chartData= 
             {labels:[  'GAMES','FG ATTEMPTS', '3PT ATTEMPTS', 'FT ATTEMPTS', 'REBOUNDS', 'ASSISTS','STEALS', 'BLOCKS', 'TURNOVERS', 'POINTS', 'FG %', '3PT %','FT %'],
@@ -112,6 +127,7 @@ handleYear=(e)=>{
         
       this.setState({ 
     playerStats: chartData})
+    console.log(this.state.playerStats)
 })
     .catch(err => {
       console.log(err);
@@ -156,21 +172,66 @@ handleYear=(e)=>{
      </PlayerInput> 
     
      <PlayerResults>
+
          {this.state.showChart === true ? (
+            <>
              <SinglePlayerGraph>
             <h2>{this.state.First} {this.state.Last}</h2>
+         <h3>{this.state.year} </h3>
              <Chart data={this.state.playerStats}/> 
              </SinglePlayerGraph>
+
+   
+          <Button outline color="primary" size="lg" onClick={this.toggleList}>List View</Button>
+          </>
+
          )
-         : (
+
+         : 
+            (
+
+              <>
+              { this.state.showList && 
+              <>
+                <SingleList>
+                  <div>
+                <ListHead>{this.state.First} {this.state.Last}
+                
+                <h3>{this.state.year} </h3>
+                </ListHead>
+                </div>
+                <ul class="fa-ul">
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> GAMES PLAYED: {this.state.listData[0]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> FG ATTEMPTS: {this.state.listData[1]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> 3PT ATTEMPTS: {this.state.listData[2]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> FT ATTEMPTS: {this.state.listData[3]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> REBOUNDS: {this.state.listData[4]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> ASSISTS: {this.state.listData[5]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> STEALS: {this.state.listData[6]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> BLOCKS: {this.state.listData[7]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> TURNOVERS: {this.state.listData[8]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> POINTS: {this.state.listData[9]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> FIELD GOAL % : {this.state.listData[10]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> 3 PT % : {this.state.listData[11]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> FT % : {this.state.listData[12]}</li>
+
+              </ul>
+              </SingleList>
+              
+              </>
+              }
+            
             <PreSubmit>
             Or, compare two players!
             </PreSubmit>
-         
+</>
          )
+
+         
   }
 
-  <Button outline color="info" size="lg"><Link to="/compare"> TWO </Link></Button>
+
+  <Button outline color="info" size="lg"><Link to="/compare"> Two Players </Link></Button>
   {/**TODO: Show option to toggle display stats numbers as list*/}
   
      </PlayerResults> {/*results cont end*/}

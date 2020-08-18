@@ -35,6 +35,7 @@ const sizes = {
     
     largeVsInputs: '1083px',
     medBreak:'781px',
+    medVsListBreak:'730px',
     smallHomeText:'430px',
     smallHeaderBreak: '415px',
     smallNavBreak:'410px',
@@ -44,6 +45,7 @@ const sizes = {
     export const breakpoints ={
         largeVsInputs: `(max-width: ${sizes.largeVsInputs})`,
         medBreak: `(max-width: ${sizes.medBreak})`,
+        medVsListBreak: `(max-width: ${sizes.medVsListBreak})`,
         smallHomeText:`(max-width:${sizes.smallHomeText})`,
         smallHeaderBreak: `(max-width: ${sizes.smallHeaderBreak})`,
         smallNavBreak: `(max-width: ${sizes.smallNavBreak})`,
