@@ -1,6 +1,9 @@
 # Lets Argue(NBA)
 Compare NBA players' stats throughout seasons, argue with friends about it!
 
+Users have ability to search for individual players, or compare two players' stats. Stats return bar graph, or optional list views!
+
+
 # Deployed at:
 https://lets-argue-nba.vercel.app/
 
