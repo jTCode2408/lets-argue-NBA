@@ -35,7 +35,7 @@ const sizes = {
     
     largeVsInputs: '1083px',
     medBreak:'781px',
-    medVsListBreak:'485px',
+    medVsListBreak:'730px',
     smallHomeText:'430px',
     smallHeaderBreak: '415px',
     smallNavBreak:'410px',

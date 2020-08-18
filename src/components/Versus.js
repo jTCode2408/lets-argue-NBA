@@ -7,7 +7,8 @@ import Navigation from './Nav';
 import {Link } from 'react-router-dom';
 import { noSeason, pre1980, yearFormat, noPlayer,injuredPlayer, dupePlayer, genError } from './Helpers';
 import{ VsCont, VsHead, VsInputsDiv, BothGraphsCont, P1GraphCont, P2GraphCont, P1Toggled, P2Toggled, ToggledCont, PreSubmit, VSResults, VsListCont, P1List, P2List, ListHead, ListButtonDiv} from './styles';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBasketballBall} from '@fortawesome/free-solid-svg-icons';
 
 class Versus extends Component {
   constructor(props){
@@ -321,20 +322,22 @@ toggleList=(e)=>{
                 <h2>{this.state.p1First} {this.state.p1Last}</h2>
             <h3>{this.state.year}</h3>
             </ListHead>
-                <li>GAMES PLAYED: {this.state.p1List[0]}</li>
-              <li>FG ATTEMPTS: {this.state.p1List[1]}</li>
-                  <li>3PT ATTEMPTS: {this.state.p1List[2]}</li>
-                  <li>FT ATTEMPTS: {this.state.p1List[3]}</li>
-                  <li>REBOUNDS: {this.state.p1List[4]}</li>
-                  <li>ASSISTS: {this.state.p1List[5]}</li>
-                  <li>STEALS: {this.state.p1List[6]}</li>
-                  <li>BLOCKS: {this.state.p1List[7]}</li>
-                  <li>TURNOVERS: {this.state.p1List[8]}</li>
-                  <li>POINTS: {this.state.p1List[9]}</li>
-                  <li>FIELD GOAL % : {this.state.p1List[10]}</li>
-                  <li>3 PT % : {this.state.p1List[11]}</li>
-                  <li>FT % : {this.state.p1List[12]}</li>
+            <ul class="fa-ul">
 
+           <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> GAMES PLAYED: {this.state.p1List[0]}</li>
+           <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> FG ATTEMPTS: {this.state.p1List[1]} </li>
+           <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> 3PT ATTEMPTS: {this.state.p1List[2]}</li>
+           <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> FT ATTEMPTS: {this.state.p1List[3]}</li>
+           <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> REBOUNDS: {this.state.p1List[4]}</li>
+           <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> ASSISTS: {this.state.p1List[5]}</li>
+           <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> STEALS: {this.state.p1List[6]}</li>
+           <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> BLOCKS: {this.state.p1List[7]}</li>
+           <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> TURNOVERS: {this.state.p1List[8]}</li>
+           <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> POINTS: {this.state.p1List[9]}</li>
+           <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> FIELD GOAL % : {this.state.p1List[10]}</li>
+           <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> 3 PT % : {this.state.p1List[11]}</li>
+           <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> FT % : {this.state.p1List[12]}</li>
+                  </ul>
                 </P1List>
 
                 <P2List>
@@ -342,20 +345,23 @@ toggleList=(e)=>{
                 <h2>{this.state.p2First} {this.state.p2Last}</h2>
                 <h3>{this.state.year}</h3>
                 </ListHead>
-                <li>GAMES PLAYED: {this.state.p2List[0]}</li>
-              <li>FG ATTEMPTS: {this.state.p2List[1]}</li>
-                  <li>3PT ATTEMPTS: {this.state.p2List[2]}</li>
-                  <li>FT ATTEMPTS: {this.state.p2List[3]}</li>
-                  <li>REBOUNDS: {this.state.p2List[4]}</li>
-                  <li>ASSISTS: {this.state.p2List[5]}</li>
-                  <li>STEALS: {this.state.p2List[6]}</li>
-                  <li>BLOCKS: {this.state.p2List[7]}</li>
-                  <li>TURNOVERS: {this.state.p2List[8]}</li>
-                  <li>POINTS: {this.state.p2List[9]}</li>
-                  <li>FIELD GOAL % : {this.state.p2List[10]}</li>
-                  <li>3 PT % : {this.state.p2List[11]}</li>
-                  <li>FT % : {this.state.p2List[12]}</li>
 
+            <ul class="fa-ul">
+            <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> GAMES PLAYED: {this.state.p2List[0]}</li>
+            <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> FG ATTEMPTS: {this.state.p2List[1]}</li>
+            <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> 3PT ATTEMPTS: {this.state.p2List[2]}</li>
+            <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> FT ATTEMPTS: {this.state.p2List[3]}</li>
+            <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> REBOUNDS: {this.state.p2List[4]}</li>
+            <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> ASSISTS: {this.state.p2List[5]}</li>
+            <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> STEALS: {this.state.p2List[6]}</li>
+            <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> BLOCKS: {this.state.p2List[7]}</li>
+            <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> TURNOVERS: {this.state.p2List[8]}</li>
+            <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> POINTS: {this.state.p2List[9]}</li>
+            <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> FIELD GOAL % : {this.state.p2List[10]}</li>
+            <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> 3 PT % : {this.state.p2List[11]}</li>
+            <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> FT % : {this.state.p2List[12]}</li>
+
+                </ul>
                 </P2List>
             </VsListCont>
                 <div className="toggle-btn">

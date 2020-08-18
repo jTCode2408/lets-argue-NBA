@@ -10,6 +10,11 @@ a{
   
 }
 
+.fa-ul{
+  text-align:left;
+  margin-left: 30%;
+}
+
 .toggle-btn{
   margin-bottom:1%;
 }

@@ -8,6 +8,8 @@ import { Button, Form, FormGroup,Input } from 'reactstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import { noSeason, pre1980, yearFormat, noPlayer,injuredPlayer, dupePlayer, genError} from './Helpers';
 import {SinglePlayerGraph, PlayerCont, PlayerHead, PreSubmit, PlayerResults, PlayerInput, SingleList, ListHead} from './styles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBasketballBall} from '@fortawesome/free-solid-svg-icons';
 
 class Player extends Component {
   constructor(props){
@@ -198,20 +200,24 @@ toggleList=(e)=>{
                 <h3>{this.state.year} </h3>
                 </ListHead>
                 </div>
-              <li>GAMES PLAYED: {this.state.listData[0]}</li>
-              <li>FG ATTEMPTS: {this.state.listData[1]}</li>
-              <li>3PT ATTEMPTS: {this.state.listData[2]}</li>
-              <li>FT ATTEMPTS: {this.state.listData[3]}</li>
-              <li>REBOUNDS: {this.state.listData[4]}</li>
-              <li>ASSISTS: {this.state.listData[5]}</li>
-              <li>STEALS: {this.state.listData[6]}</li>
-              <li>BLOCKS: {this.state.listData[7]}</li>
-              <li>TURNOVERS: {this.state.listData[8]}</li>
-              <li>POINTS: {this.state.listData[9]}</li>
-              <li>FIELD GOAL % : {this.state.listData[10]}</li>
-              <li>3 PT % : {this.state.listData[11]}</li>
-              <li>FT % : {this.state.listData[12]}</li>
+                <ul class="fa-ul">
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> GAMES PLAYED: {this.state.listData[0]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> FG ATTEMPTS: {this.state.listData[1]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> 3PT ATTEMPTS: {this.state.listData[2]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> FT ATTEMPTS: {this.state.listData[3]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> REBOUNDS: {this.state.listData[4]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> ASSISTS: {this.state.listData[5]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> STEALS: {this.state.listData[6]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> BLOCKS: {this.state.listData[7]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> TURNOVERS: {this.state.listData[8]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> POINTS: {this.state.listData[9]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> FIELD GOAL % : {this.state.listData[10]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> 3 PT % : {this.state.listData[11]}</li>
+              <li> <FontAwesomeIcon icon={faBasketballBall}></FontAwesomeIcon> FT % : {this.state.listData[12]}</li>
+
+              </ul>
               </SingleList>
+              
               </>
               }
             

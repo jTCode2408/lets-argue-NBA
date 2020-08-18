@@ -133,7 +133,6 @@ font-family: 'Special Elite', cursive;
 
 
 export const VsCont = styled.div`
-
 display:flex;
 flex-direction:column;
 justify-content: center;
@@ -149,7 +148,6 @@ font-size:2rem;
 `
 
 export const VsInputsDiv=styled.div`
-
 display:flex;
 justify-content: center;
 align-content: center;
@@ -213,19 +211,21 @@ width:50%;
 
 `
 
-
 export const ListHead=styled.div`
 color: black;
 font-size:1.8rem;
 font-family: 'Special Elite', cursive;
-
+text-align:center;
+margin-top:1%;
 `
 
 export const SingleList=styled.div`
 font-family: 'Markazi Text', serif;
 color:#A9A9A9;
-font-size:1.5rem;
+font-size:1.7rem;
 font-weight:bold;
+border:3px solid black;
+
 `
 
 export const VsListCont=styled.div`
@@ -245,8 +245,9 @@ border:3px solid black;
 width:50%;
 font-family: 'Markazi Text', serif;
 color:#A9A9A9;
-font-size:1.5rem;
+font-size:1.7rem;
 font-weight:bold;
+
 
 @media ${breakpoints.medVsListBreak}{
    width:100%
@@ -258,7 +259,7 @@ border:3px solid black;
 width:50%;
 font-family: 'Markazi Text', serif;
 color:#A9A9A9;
-font-size:1.5rem;
+font-size:1.7rem;
 font-weight:bold;
 
 @media ${breakpoints.medVsListBreak}{
