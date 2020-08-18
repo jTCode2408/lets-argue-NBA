@@ -21,4 +21,6 @@ https://lets-argue-nba.vercel.app/
 
 
 
-#### In progress
+#### In progress features:
+  * Stats by team
+  * Stats by game
