@@ -289,7 +289,9 @@ toggleList=(e)=>{
           </ListButtonDiv>
 </>
       )
-      : (
+      : 
+      
+      (
 <>
         {this.state.sideBySide && 
             <div className = "toggled-results-cont">
@@ -376,7 +378,6 @@ toggleList=(e)=>{
          </>      
       )
 }   
-
 
 <div className = "link-to">
 <Button outline color="info" size="lg"><Link to="/player"> One Player </Link></Button>

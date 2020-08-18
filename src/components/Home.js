@@ -1,8 +1,5 @@
-//main 'intro' page
-//import player form here for basic functionality of searching 1 player
-// link to versus page to compare players
-import React, {useState} from 'react';
-import {Route, Link, Switch} from 'react-router-dom';
+import React from 'react';
+import {Link} from 'react-router-dom';
 import Navigation from './Nav';
 import Ball from './Ball';
 import {HomeCont, HomeHeader, Intro, StyledSpans} from './styles';
