@@ -7,7 +7,7 @@ Compare NBA players' stats throughout seasons, argue with friends about it!
 ## Deployed at:
 https://lets-argue-nba.vercel.app/
 
-<img src="NNLSS.png">
+<img src="NNLSS.png" alt="application screenshot">
 
 ## Features:
 * Users have ability to search for individual players by season, and receive a list or graph view of stats for that player.
