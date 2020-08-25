@@ -1,11 +1,17 @@
-# Lets Argue(NBA)
+# Lets Argue(NBA) :basketball:
 Compare NBA players' stats throughout seasons, argue with friends about it!
 
-Users have ability to search for individual players, or compare two players' stats. Stats return bar graph, or optional list views!
+*This is a project I made during the 'bubble-season' of the NBA. I wanted to mainly practice my class component React skills, as well as make something useful for bettors, or people who just like to argue.*
 
 
-# Deployed at:
+## Deployed at:
 https://lets-argue-nba.vercel.app/
+
+## Features:
+* Users have ability to search for individual players, or compare two players' stats. Stats return bar graph, or optional list views!
+
+
+
 
 
 ## Built With:
@@ -23,6 +29,7 @@ https://lets-argue-nba.vercel.app/
 * Rate limit 60 requests per minute
 * Regular season averages only
 
+### For Dev's: 
 
 
 #### In progress features:
