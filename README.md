@@ -27,6 +27,7 @@ https://lets-argue-nba.vercel.app/
 
 ## For Dev's: 
 `npm install` to download dependencies
+
 `npm start` Runs the app in development mode. Opens http://localhost:3000 to view in the browser.
 
 ### Contributing 
