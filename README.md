@@ -17,7 +17,7 @@ https://lets-argue-nba.vercel.app/
 
 
 ## Built With:
-*ReactJS, Styled Components*
+### *ReactJS, Styled Components*
 * Graphs from (https://www.npmjs.com/package/react-chartjs-2)
 * Patterns from (https://www.npmjs.com/package/patternomaly)
 * Toasts from (https://fkhadra.github.io/react-toastify/introduction/)
