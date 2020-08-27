@@ -1,5 +1,5 @@
 # Lets Argue(NBA) :basketball:
-Compare NBA players' stats throughout seasons, argue with friends about it!
+A.K.A 'Numbers Never Lie'. Compare NBA players' stats throughout seasons, argue with friends about it!
 
 *This is a project I made during the 'bubble-season' of the NBA. I wanted to mainly practice my class component React skills, as well as make something useful for bettors, or people who just like to have a quick stats lookup.*
 
